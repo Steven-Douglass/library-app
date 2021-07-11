@@ -168,8 +168,6 @@ public class LibraryServiceImplTest {
         expectedBook.setBookID(1);
         expectedBook.setTitle("David Copperfield");
         expectedBook.setPublishDate("1849-05-01");
-        expectedBook.setLibraryID(1);
-        expectedBook.setMemberID(null);
 
         // When
         Book actualBook = libraryService.getBook(1);
@@ -195,8 +193,6 @@ public class LibraryServiceImplTest {
         Book newBook = new Book();
         newBook.setTitle("Roughing It");
         newBook.setPublishDate("1872-02-01");
-        newBook.setLibraryID(2);
-        newBook.setMemberID(1);
 
         // When
         libraryService.saveBook(newBook);
@@ -302,7 +298,6 @@ public class LibraryServiceImplTest {
         expectedMember.setMemberID(1);
         expectedMember.setFirstName("Steven");
         expectedMember.setLastName("Douglass");
-        expectedMember.setMemberSince("2018-10-02");
         expectedMember.setAddressID(1);
 
         // When
@@ -337,7 +332,6 @@ public class LibraryServiceImplTest {
         Member newMember = new Member();
         newMember.setFirstName("Jon");
         newMember.setLastName("Tran");
-        newMember.setMemberSince("2017-11-19");
         newMember.setAddressID(9);
 
         // When

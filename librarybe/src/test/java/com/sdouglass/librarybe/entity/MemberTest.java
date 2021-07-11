@@ -12,21 +12,18 @@ class MemberTest {
         member1.setMemberID(1);
         member1.setFirstName("Steven");
         member1.setLastName("Douglass");
-        member1.setMemberSince("2018-10-02");
         member1.setAddressID(1);
 
         Member member2 = new Member();
         member2.setMemberID(1);
         member2.setFirstName("Steven");
         member2.setLastName("Douglass");
-        member2.setMemberSince("2018-10-02");
         member2.setAddressID(1);
 
         Member member3 = new Member();
         member3.setMemberID(6);
         member3.setFirstName("Latoya");
         member3.setLastName("Bridges");
-        member3.setMemberSince("2007-08-14");
         member3.setAddressID(8);
 
         assertEquals(member1, member1);
