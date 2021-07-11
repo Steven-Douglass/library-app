@@ -21,9 +21,6 @@ public class Member {
     private String lastName;
 
     @Column
-    private String memberSince;
-
-    @Column
     private Integer addressID;
 
     @Override
@@ -40,7 +37,6 @@ public class Member {
         return this.getMemberID() == member.getMemberID() &&
                this.getFirstName().equals(member.getFirstName()) &&
                this.getLastName().equals(member.getLastName()) &&
-               this.getMemberSince().equals(member.getMemberSince()) &&
                this.getAddressID() == member.getAddressID();
     }
 }

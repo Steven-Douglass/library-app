@@ -20,12 +20,6 @@ public class Book {
     @Column
     private String publishDate;
 
-    @Column
-    private Integer libraryID;
-
-    @Column
-    private Integer memberID;
-
     @Override
     public boolean equals(Object object) {
         if (object == this) {
@@ -39,8 +33,6 @@ public class Book {
         Book book = (Book) object;
         return this.getBookID() == book.getBookID() &&
                this.getTitle().equals(book.getTitle()) &&
-               this.getPublishDate().equals(book.getPublishDate()) &&
-               this.getLibraryID() == book.getLibraryID() &&
-               this.getMemberID() == book.getMemberID();
+               this.getPublishDate().equals(book.getPublishDate());
     }
 }
