@@ -1,16 +1,11 @@
 package com.sdouglass.librarybe.dao;
 
-import com.sdouglass.librarybe.address.entity.Address;
+import com.sdouglass.librarybe.author.entity.Author;
 import com.sdouglass.librarybe.entity.*;
 
 import java.util.List;
 
 public interface LibraryDAO {
-    public Author getAuthor(Integer id);
-    public List<Author> getAllAuthors();
-    public void saveAuthor(Author author);
-    public void deleteAuthor(Integer id);
-
     public Book getBook(Integer id);
     public List<Book> getAllBooks();
     public void saveBook(Book book);

@@ -1,6 +1,6 @@
 package com.sdouglass.librarybe.service;
 
-import com.sdouglass.librarybe.address.entity.Address;
+import com.sdouglass.librarybe.author.entity.Author;
 import com.sdouglass.librarybe.dao.LibraryDAO;
 import com.sdouglass.librarybe.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,36 +16,6 @@ public class LibraryServiceImpl implements LibraryService {
     @Autowired
     public LibraryServiceImpl(LibraryDAO libraryDAO){
         this.libraryDAO = libraryDAO;
-    }
-
-    @Override
-    @Transactional
-    public Author getAuthor(Integer id) {
-        Author author = libraryDAO.getAuthor(id);
-        if (author == null) {
-            throw new RuntimeException("Author ID not found - " + id);
-        }
-        return author;
-    }
-
-    @Override
-    @Transactional
-    public List<Author> getAllAuthors() {
-        return libraryDAO.getAllAuthors();
-    }
-
-    @Override
-    @Transactional
-    public void saveAuthor(Author author) {
-        libraryDAO.saveAuthor(author);
-    }
-
-    @Override
-    @Transactional
-    public String deleteAuthor(Integer id) {
-        Author author = getAuthor(id);
-        libraryDAO.deleteAuthor(author.getAuthorID());
-        return "Deleted author with ID: " + id;
     }
 
     @Override

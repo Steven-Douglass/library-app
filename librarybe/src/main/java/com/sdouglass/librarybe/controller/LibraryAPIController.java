@@ -1,7 +1,8 @@
 package com.sdouglass.librarybe.controller;
 
-import com.sdouglass.librarybe.address.entity.Address;
 import com.sdouglass.librarybe.address.service.AddressService;
+import com.sdouglass.librarybe.author.entity.Author;
+import com.sdouglass.librarybe.author.service.AuthorService;
 import com.sdouglass.librarybe.entity.*;
 import com.sdouglass.librarybe.service.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,65 +15,14 @@ import java.util.List;
 public class LibraryAPIController {
     private final LibraryService libraryService;
     private final AddressService addressService;
+    private final AuthorService authorService;
 
     @Autowired
-    public LibraryAPIController(LibraryService libraryService, AddressService addressService) {
+    public LibraryAPIController(LibraryService libraryService, AddressService addressService,
+                                AuthorService authorService) {
         this.libraryService = libraryService;
         this.addressService = addressService;
-    }
-
-//    @GetMapping("/address/{id}")
-//    public Address getAddress(@PathVariable Integer id) {
-//        return addressService.getAddress(id);
-//    }
-//
-//    @GetMapping("/address")
-//    public List<Address> getAddresses() {
-//        return addressService.getAllAddresses();
-//    }
-//
-//    @PostMapping("/address")
-//    public Address addAddress(@RequestBody Address address) {
-//        addressService.saveAddress(address);
-//        return address;
-//    }
-//
-//    @PutMapping("/address")
-//    public Address updateAddress(@RequestBody Address address) {
-//        addressService.saveAddress(address);
-//        return address;
-//    }
-//
-//    @DeleteMapping("/address/{id}")
-//    public String deleteAddress(@PathVariable Integer id) {
-//        return addressService.deleteAddress(id);
-//    }
-
-    @GetMapping("/author/{id}")
-    public Author getAuthor(@PathVariable Integer id) {
-        return libraryService.getAuthor(id);
-    }
-
-    @GetMapping("/author")
-    public List<Author> getAuthors() {
-        return libraryService.getAllAuthors();
-    }
-
-    @PostMapping("/author")
-    public Author addAuthor(@RequestBody Author author) {
-        libraryService.saveAuthor(author);
-        return author;
-    }
-
-    @PutMapping("/author")
-    public Author updateAuthor(@RequestBody Author author) {
-        libraryService.saveAuthor(author);
-        return author;
-    }
-
-    @DeleteMapping("/author/{id}")
-    public String deleteAuthor(@PathVariable Integer id) {
-        return libraryService.deleteAuthor(id);
+        this.authorService = authorService;
     }
 
     @GetMapping("/book/{id}")

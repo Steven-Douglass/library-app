@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Repository
 public class AddressDAOImpl implements AddressDAO {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Autowired
     public AddressDAOImpl(EntityManager entityManager) {

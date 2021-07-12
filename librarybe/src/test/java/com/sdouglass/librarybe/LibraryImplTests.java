@@ -2,6 +2,8 @@ package com.sdouglass.librarybe;
 
 import com.sdouglass.librarybe.address.entity.Address;
 import com.sdouglass.librarybe.address.service.AddressService;
+import com.sdouglass.librarybe.author.entity.Author;
+import com.sdouglass.librarybe.author.service.AuthorService;
 import com.sdouglass.librarybe.entity.*;
 import com.sdouglass.librarybe.service.LibraryService;
 import lombok.NoArgsConstructor;
@@ -29,6 +31,8 @@ public class LibraryImplTests {
     private LibraryService libraryService;
     @Autowired
     private AddressService addressService;
+    @Autowired
+    private AuthorService authorService;
 
     @BeforeEach
     void setUp() {
@@ -136,7 +140,7 @@ public class LibraryImplTests {
     @Order(6)
     void getAllAuthors() {
         // When
-        List<Author> authors = libraryService.getAllAuthors();
+        List<Author> authors = authorService.getAllAuthors();
 
         // Then
         assertEquals(4, authors.size());
@@ -151,8 +155,8 @@ public class LibraryImplTests {
         newAuthor.setLastName("Angelou");
 
         // When
-        libraryService.saveAuthor(newAuthor);
-        Author savedAuthor = libraryService.getAuthor(5);
+        authorService.saveAuthor(newAuthor);
+        Author savedAuthor = authorService.getAuthor(5);
 
         // Then
         assertTrue(newAuthor.equals(savedAuthor));
@@ -162,18 +166,26 @@ public class LibraryImplTests {
     @Order(8)
     void deleteAuthor() {
         // Given
-        String expectedException = "Author ID not found - 1";
+        String expectedException = "Author ID not found - 5";
         String actualException = "";
 
+        Author newAuthor = new Author();
+        newAuthor.setFirstName("Maya");
+        newAuthor.setLastName("Angelou");
+
         // When
-        libraryService.deleteAuthor(1);
+        authorService.saveAuthor(newAuthor);
+        Author savedAuthor = authorService.getAuthor(5);
+
+        authorService.deleteAuthor(5);
         try {
-            Author author = libraryService.getAuthor(1);
+            Author author = authorService.getAuthor(5);
         } catch (RuntimeException e) {
             actualException = e.getMessage();
         }
 
         // Then
+        assertTrue(newAuthor.equals(savedAuthor));
         assertEquals(expectedException, actualException);
     }
 

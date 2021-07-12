@@ -1,6 +1,6 @@
 package com.sdouglass.librarybe.service;
 
-import com.sdouglass.librarybe.address.entity.Address;
+import com.sdouglass.librarybe.author.entity.Author;
 import com.sdouglass.librarybe.entity.*;
 import org.springframework.stereotype.Service;
 
@@ -8,11 +8,6 @@ import java.util.List;
 
 @Service
 public interface LibraryService {
-    public Author getAuthor(Integer id);
-    public List<Author> getAllAuthors();
-    public void saveAuthor(Author author);
-    public String deleteAuthor(Integer id);
-
     public Book getBook(Integer id);
     public List<Book> getAllBooks();
     public void saveBook(Book book);
