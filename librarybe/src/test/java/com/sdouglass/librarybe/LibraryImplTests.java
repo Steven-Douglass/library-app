@@ -1,6 +1,9 @@
-package com.sdouglass.librarybe.service;
+package com.sdouglass.librarybe;
 
+import com.sdouglass.librarybe.address.entity.Address;
+import com.sdouglass.librarybe.address.service.AddressService;
 import com.sdouglass.librarybe.entity.*;
+import com.sdouglass.librarybe.service.LibraryService;
 import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +24,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Sql(scripts = {"/init.sql",  "/populateDB.sql"},
     config = @SqlConfig(transactionMode = SqlConfig.TransactionMode.ISOLATED))
-public class LibraryServiceImplTest {
+public class LibraryImplTests {
     @Autowired
     private LibraryService libraryService;
+    @Autowired
+    private AddressService addressService;
 
     @BeforeEach
     void setUp() {
@@ -45,7 +50,7 @@ public class LibraryServiceImplTest {
         expectedAddress.setPostalCode("08105-1234");
 
         // When
-        Address actualAddress = libraryService.getAddress(6);
+        Address actualAddress = addressService.getAddress(6);
 
         // Then
         assertTrue(expectedAddress.equals(actualAddress));
@@ -55,7 +60,7 @@ public class LibraryServiceImplTest {
     @Order(2)
     void getAllAddresses() {
         // When
-        List<Address> addresses = libraryService.getAllAddresses();
+        List<Address> addresses = addressService.getAllAddresses();
 
         // Then
         assertEquals(8, addresses.size());
@@ -63,7 +68,7 @@ public class LibraryServiceImplTest {
 
     @Test
     @Order(3)
-    void saveAddress() {
+    void saveNewAddress() {
         // Given
         Address newAddress = new Address();
         newAddress.setAddressLine1("84 Huffington Lane");
@@ -73,8 +78,8 @@ public class LibraryServiceImplTest {
         newAddress.setPostalCode("08002");
 
         // When
-        libraryService.saveAddress(newAddress);
-        Address savedAddress = libraryService.getAddress(9);
+        addressService.saveAddress(newAddress);
+        Address savedAddress = addressService.getAddress(9);
 
         // Then
         assertTrue(newAddress.equals(savedAddress));
@@ -82,37 +87,49 @@ public class LibraryServiceImplTest {
 
     @Test
     @Order(4)
-    void deleteAddress() {
+    void updateExistingAddress() {
         // Given
-        String expectedException = "Address ID not found - 2";
-        String actualException = "";
+        Address existingAddress = addressService.getAddress(1);
+        existingAddress.setAddressLine1("941 Hummingbird Lane");
+        existingAddress.setAddressLine2("Apt 16B");
+        existingAddress.setCity("Cherry Hill");
+        existingAddress.setState("NJ");
+        existingAddress.setPostalCode("08108");
 
         // When
-        libraryService.deleteAddress(2);
+        addressService.saveAddress(existingAddress);
+        Address savedAddress = addressService.getAddress(1);
+
+        // Then
+        assertTrue(existingAddress.equals(savedAddress));
+    }
+
+    @Test
+    @Order(5)
+    void deleteAddress() {
+        // Given
+        String expectedException = "Address ID not found - 9";
+        String actualException = "";
+
+        Address newAddress = new Address();
+        newAddress.setAddressLine1("84 Huffington Lane");
+        newAddress.setAddressLine2("Apt H6");
+        newAddress.setCity("Cherry Hill");
+        newAddress.setState("NJ");
+        newAddress.setPostalCode("08002");
+
+        // When
+        addressService.saveAddress(newAddress);
+        Address savedAddress = addressService.getAddress(9);
+        addressService.deleteAddress(savedAddress.getAddressID());
         try {
-            Address address = libraryService.getAddress(2);
+            Address address = addressService.getAddress(9);
         } catch (RuntimeException e) {
             actualException = e.getMessage();
         }
 
         // Then
         assertEquals(expectedException, actualException);
-    }
-
-    @Test
-    @Order(5)
-    void getAuthor() {
-        // Given
-        Author expectedAuthor = new Author();
-        expectedAuthor.setAuthorID(4);
-        expectedAuthor.setFirstName("Charles");
-        expectedAuthor.setLastName("Dickens");
-
-        // When
-        Author actualAuthor = libraryService.getAuthor(4);
-
-        // Then
-        assertTrue(expectedAuthor.equals(actualAuthor));
     }
 
     @Test
@@ -257,7 +274,7 @@ public class LibraryServiceImplTest {
         newAddress.setCity("Philadelphia");
         newAddress.setState("PA");
         newAddress.setPostalCode("19103");
-        libraryService.saveAddress(newAddress);
+        addressService.saveAddress(newAddress);
 
         Library newLibrary = new Library();
         newLibrary.setName("The Free Library Of Philadelphia");
@@ -327,7 +344,7 @@ public class LibraryServiceImplTest {
         newAddress.setCity("Philadelphia");
         newAddress.setState("PA");
         newAddress.setPostalCode("19103");
-        libraryService.saveAddress(newAddress);
+        addressService.saveAddress(newAddress);
 
         Member newMember = new Member();
         newMember.setFirstName("Jon");

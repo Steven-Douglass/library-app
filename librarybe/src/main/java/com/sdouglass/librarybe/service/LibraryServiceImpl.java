@@ -1,5 +1,6 @@
 package com.sdouglass.librarybe.service;
 
+import com.sdouglass.librarybe.address.entity.Address;
 import com.sdouglass.librarybe.dao.LibraryDAO;
 import com.sdouglass.librarybe.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,40 +16,6 @@ public class LibraryServiceImpl implements LibraryService {
     @Autowired
     public LibraryServiceImpl(LibraryDAO libraryDAO){
         this.libraryDAO = libraryDAO;
-    }
-
-    @Override
-    @Transactional
-    public Address getAddress(Integer id) {
-        Address address = libraryDAO.getAddress(id);
-        if (address == null) {
-            throw new RuntimeException("Address ID not found - " + id);
-        }
-        return address;
-    }
-
-    @Override
-    @Transactional
-    public List<Address> getAllAddresses() {
-        return libraryDAO.getAllAddresses();
-    }
-
-    @Override
-    @Transactional
-    public void saveAddress(Address address) {
-        try {
-            libraryDAO.saveAddress(address);
-        } catch (Exception e) {
-            System.out.println("Exception caught when saving address: " + e);
-        }
-    }
-
-    @Override
-    @Transactional
-    public String deleteAddress(Integer id) {
-        Address address = getAddress(id);
-        libraryDAO.deleteAddress(address.getAddressID());
-        return "Deleted address with ID: " + id;
     }
 
     @Override

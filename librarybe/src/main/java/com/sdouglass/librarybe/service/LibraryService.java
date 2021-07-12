@@ -1,5 +1,6 @@
 package com.sdouglass.librarybe.service;
 
+import com.sdouglass.librarybe.address.entity.Address;
 import com.sdouglass.librarybe.entity.*;
 import org.springframework.stereotype.Service;
 
@@ -7,11 +8,6 @@ import java.util.List;
 
 @Service
 public interface LibraryService {
-    public Address getAddress(Integer id);
-    public List<Address> getAllAddresses();
-    public void saveAddress(Address address);
-    public String deleteAddress(Integer id);
-
     public Author getAuthor(Integer id);
     public List<Author> getAllAuthors();
     public void saveAuthor(Author author);

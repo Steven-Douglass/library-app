@@ -1,5 +1,6 @@
 package com.sdouglass.librarybe.dao;
 
+import com.sdouglass.librarybe.address.service.AddressService;
 import com.sdouglass.librarybe.entity.*;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -14,67 +15,12 @@ import java.util.stream.Collectors;
 public class LibraryDAOImpl implements LibraryDAO {
 
     private EntityManager entityManager;
+    private AddressService addressService;
 
     @Autowired
-    public LibraryDAOImpl(EntityManager entityManager) {
+    public LibraryDAOImpl(EntityManager entityManager, AddressService addressService) {
         this.entityManager = entityManager;
-    }
-
-    @Override
-    public Address getAddress(Integer id) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        return currentSession.get(Address.class, id);
-    }
-
-    @Override
-    public List<Address> getAllAddresses() {
-        Session currentSession = entityManager.unwrap(Session.class);
-        Query<Address> addressQuery = currentSession.createQuery("FROM Address", Address.class);
-        List<Address> addresses = addressQuery.getResultList();
-        return addresses;
-    }
-
-    @Override
-    public void saveAddress(Address address) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        currentSession.saveOrUpdate(address);
-    }
-
-    @Override
-    public void deleteAddress(Integer id) {
-        // Get list of libraries who use this address
-        Session currentSession = entityManager.unwrap(Session.class);
-        Query<Library> libraryQuery = currentSession.createQuery("FROM Library l WHERE l.addressID = :id");
-        libraryQuery.setParameter("id", id);
-        List<Library> libraryList = libraryQuery.getResultList();
-        List<Integer> libraryIDs = libraryList.stream().map(Library::getLibraryID).collect(Collectors.toList());
-
-        // Remove the address reference of any library with this address
-        if (!libraryIDs.isEmpty()) {
-            Query<Library> libraryAddressQuery = currentSession.createQuery("UPDATE Library set addressID = null " +
-                                                                             "WHERE id IN :libraryIDs");
-            libraryAddressQuery.setParameter("libraryIDs", libraryIDs);
-            libraryAddressQuery.executeUpdate();
-        }
-
-        // Get list of members who use this address
-        Query<Member> memberQuery = currentSession.createQuery("FROM Member m WHERE m.addressID = :id");
-        memberQuery.setParameter("id", id);
-        List<Member> memberList = memberQuery.getResultList();
-        List<Integer> memberIDs = memberList.stream().map(Member::getMemberID).collect(Collectors.toList());
-
-        // Remove the address reference of any member with this address
-        if (!memberIDs.isEmpty()) {
-            Query<Library> memberAddressQuery = currentSession.createQuery("UPDATE Member set addressID = null " +
-                                                                           "WHERE id IN :memberIDs");
-            memberAddressQuery.setParameter("memberIDs", memberIDs);
-            memberAddressQuery.executeUpdate();
-        }
-
-        // Delete the address
-        Query addressQuery = currentSession.createQuery("DELETE FROM Address a WHERE a.addressID = :id");
-        addressQuery.setParameter("id", id);
-        addressQuery.executeUpdate();
+        this.addressService = addressService;
     }
 
     @Override
@@ -197,7 +143,7 @@ public class LibraryDAOImpl implements LibraryDAO {
 
         // Delete the Library
         Library library = getLibrary(id);
-        deleteAddress(library.getAddressID());
+        addressService.deleteAddress(library.getAddressID());
         Query libraryQuery = currentSession.createQuery("DELETE FROM Library l WHERE l.libraryID = :id");
         libraryQuery.setParameter("id", id);
         libraryQuery.executeUpdate();
