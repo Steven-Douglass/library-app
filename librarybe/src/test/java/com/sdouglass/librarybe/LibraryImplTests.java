@@ -296,7 +296,6 @@ public class LibraryImplTests {
         newAddress.setCity("Philadelphia");
         newAddress.setState("PA");
         newAddress.setPostalCode("19103");
-//        addressService.saveAddress(newAddress);
 
         Library newLibrary = new Library();
         newLibrary.setName("The Free Library Of Philadelphia");
@@ -323,7 +322,6 @@ public class LibraryImplTests {
         newAddress.setCity("Philadelphia");
         newAddress.setState("PA");
         newAddress.setPostalCode("19103");
-//        addressService.saveAddress(newAddress);
 
         Library newLibrary = new Library();
         newLibrary.setName("The Free Library Of Philadelphia");
@@ -380,7 +378,6 @@ public class LibraryImplTests {
         newAddress.setCity("Philadelphia");
         newAddress.setState("PA");
         newAddress.setPostalCode("19103");
-//        addressService.saveAddress(newAddress);
 
         Member newMember = new Member();
         newMember.setFirstName("Jon");
@@ -408,7 +405,6 @@ public class LibraryImplTests {
         newAddress.setCity("Philadelphia");
         newAddress.setState("PA");
         newAddress.setPostalCode("19103");
-//        addressService.saveAddress(newAddress);
 
         Member newMember = new Member();
         newMember.setFirstName("Jon");
