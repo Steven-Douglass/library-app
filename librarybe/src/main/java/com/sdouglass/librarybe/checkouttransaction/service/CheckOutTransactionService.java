@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 public interface CheckOutTransactionService {
+    public CheckOutTransaction getCheckOutTransaction(Integer id);
     public List<CheckOutTransaction> getAllCheckOutTransactions();
     public List<CheckOutTransaction> getAllCheckOutTransactionsNotReturned();
     public void saveCheckOutTransaction(CheckOutTransaction checkOutTransaction);

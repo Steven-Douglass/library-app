@@ -22,6 +22,12 @@ public class CheckOutTransactionDAOImpl implements CheckOutTransactionDAO {
     }
 
     @Override
+    public CheckOutTransaction getCheckOutTransaction(Integer id) {
+        Session currentSession = entityManager.unwrap(Session.class);
+        return currentSession.get(CheckOutTransaction.class, id);
+    }
+
+    @Override
     public List<CheckOutTransaction> getAllCheckOutTransactions() {
         Session currentSession = entityManager.unwrap(Session.class);
         Query<CheckOutTransaction> checkOutTransactionQuery = currentSession.createQuery("FROM CheckOutTransaction", CheckOutTransaction.class);

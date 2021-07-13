@@ -1,5 +1,6 @@
 package com.sdouglass.librarybe.checkouttransaction.entity;
 
+import com.sdouglass.librarybe.author.entity.Author;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,5 +26,22 @@ public class CheckOutTransaction {
 
     @OneToOne(mappedBy = "checkOutTransaction", cascade = CascadeType.ALL)
     private CheckInTransaction checkInTransaction;
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (!(object instanceof CheckOutTransaction)) {
+            return false;
+        }
+
+        CheckOutTransaction checkOutTransaction = (CheckOutTransaction) object;
+        return this.getCheckOutTransactionID() == checkOutTransaction.getCheckOutTransactionID() &&
+                this.getBookInstanceID() == checkOutTransaction.getBookInstanceID() &&
+                this.getMemberID() == checkOutTransaction.getMemberID() &&
+                this.getDateCheckedOut().equals(checkOutTransaction.getDateCheckedOut());
+    }
 
 }

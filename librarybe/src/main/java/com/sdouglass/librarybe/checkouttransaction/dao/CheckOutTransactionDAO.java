@@ -6,6 +6,7 @@ import com.sdouglass.librarybe.checkouttransaction.entity.CheckOutTransaction;
 import java.util.List;
 
 public interface CheckOutTransactionDAO {
+    public CheckOutTransaction getCheckOutTransaction(Integer id);
     public List<CheckOutTransaction> getAllCheckOutTransactions();
     public List<CheckOutTransaction> getAllCheckOutTransactionsNotReturned();
     public void saveCheckOutTransaction(CheckOutTransaction checkOutTransaction);

@@ -20,6 +20,12 @@ public class CheckOutTransactionServiceImpl implements CheckOutTransactionServic
 
     @Override
     @Transactional
+    public CheckOutTransaction getCheckOutTransaction(Integer id) {
+        return checkOutTransactionDAO.getCheckOutTransaction(id);
+    }
+
+    @Override
+    @Transactional
     public List<CheckOutTransaction> getAllCheckOutTransactions() {
         return checkOutTransactionDAO.getAllCheckOutTransactions();
     }

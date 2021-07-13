@@ -453,4 +453,20 @@ public class LibraryImplTests {
         assertEquals(numberOfTransactionsNotReturned, checkOutTransactionsNotReturnedList.size());
     }
 
+    @Test
+    void saveCheckOutTransaction() {
+        // Given
+        CheckOutTransaction newCheckOutTransaction = new CheckOutTransaction();
+        newCheckOutTransaction.setBookInstanceID(27);
+        newCheckOutTransaction.setMemberID(1);
+        newCheckOutTransaction.setDateCheckedOut("2020-06-13");
+
+        // When
+        checkOutTransactionService.saveCheckOutTransaction(newCheckOutTransaction);
+        CheckOutTransaction savedCheckOutTransaction = checkOutTransactionService.getCheckOutTransaction(9);
+
+        // Then
+        assertTrue(newCheckOutTransaction.equals(savedCheckOutTransaction));
+    }
+
 }
