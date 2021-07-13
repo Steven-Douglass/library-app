@@ -11,17 +11,14 @@ class LibraryTest {
         Library library1 = new Library();
         library1.setLibraryID(1);
         library1.setName("Greater Learning Library");
-        library1.setAddressID(5);
 
         Library library2 = new Library();
         library2.setLibraryID(1);
         library2.setName("Greater Learning Library");
-        library2.setAddressID(5);
 
         Library library3 = new Library();
         library3.setLibraryID(2);
         library3.setName("New Day Library");
-        library3.setAddressID(6);
 
         assertEquals(library1, library1);
         assertEquals(library2, library2);

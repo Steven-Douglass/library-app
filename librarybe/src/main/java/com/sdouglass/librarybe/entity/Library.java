@@ -1,5 +1,6 @@
 package com.sdouglass.librarybe.entity;
 
+import com.sdouglass.librarybe.address.entity.Address;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,8 +18,9 @@ public class Library {
     @Column
     private String name;
 
-    @Column
-    private Integer addressID;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="AddressID")
+    private Address address;
 
     @Override
     public boolean equals(Object object) {
@@ -32,7 +34,6 @@ public class Library {
 
         Library library = (Library) object;
         return this.getLibraryID() == library.getLibraryID() &&
-               this.getName().equals(library.getName()) &&
-               this.getAddressID() == library.getAddressID();
+               this.getName().equals(library.getName());
     }
 }

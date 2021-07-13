@@ -46,28 +46,28 @@ public class AddressDAOImpl implements AddressDAO {
     public void deleteAddress(Integer id) {
         // Get list of libraries who use this address
         Session currentSession = entityManager.unwrap(Session.class);
-        Query<Library> libraryQuery = currentSession.createQuery("FROM Library l WHERE l.addressID = :id");
+        Query<Library> libraryQuery = currentSession.createQuery("FROM Library l WHERE l.address.addressID = :id");
         libraryQuery.setParameter("id", id);
         List<Library> libraryList = libraryQuery.getResultList();
         List<Integer> libraryIDs = libraryList.stream().map(Library::getLibraryID).collect(Collectors.toList());
 
         // Remove the address reference of any library with this address
         if (!libraryIDs.isEmpty()) {
-            Query<Library> libraryAddressQuery = currentSession.createQuery("UPDATE Library set addressID = null " +
+            Query<Library> libraryAddressQuery = currentSession.createQuery("UPDATE Library set address.addressID = null " +
                     "WHERE id IN :libraryIDs");
             libraryAddressQuery.setParameter("libraryIDs", libraryIDs);
             libraryAddressQuery.executeUpdate();
         }
 
         // Get list of members who use this address
-        Query<Member> memberQuery = currentSession.createQuery("FROM Member m WHERE m.addressID = :id");
+        Query<Member> memberQuery = currentSession.createQuery("FROM Member m WHERE m.address.addressID = :id");
         memberQuery.setParameter("id", id);
         List<Member> memberList = memberQuery.getResultList();
         List<Integer> memberIDs = memberList.stream().map(Member::getMemberID).collect(Collectors.toList());
 
         // Remove the address reference of any member with this address
         if (!memberIDs.isEmpty()) {
-            Query<Library> memberAddressQuery = currentSession.createQuery("UPDATE Member set addressID = null " +
+            Query<Library> memberAddressQuery = currentSession.createQuery("UPDATE Member set address.addressID = null " +
                     "WHERE id IN :memberIDs");
             memberAddressQuery.setParameter("memberIDs", memberIDs);
             memberAddressQuery.executeUpdate();

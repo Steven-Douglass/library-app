@@ -1,14 +1,16 @@
 package com.sdouglass.librarybe.dao;
 
 import com.sdouglass.librarybe.address.service.AddressService;
-import com.sdouglass.librarybe.author.entity.Author;
+import com.sdouglass.librarybe.checkouttransaction.entity.CheckOutTransaction;
 import com.sdouglass.librarybe.entity.*;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,7 +101,7 @@ public class LibraryDAOImpl implements LibraryDAO {
 
         // Delete the Library
         Library library = getLibrary(id);
-        addressService.deleteAddress(library.getAddressID());
+        addressService.deleteAddress(library.getAddress().getAddressID());
         Query libraryQuery = currentSession.createQuery("DELETE FROM Library l WHERE l.libraryID = :id");
         libraryQuery.setParameter("id", id);
         libraryQuery.executeUpdate();
@@ -127,12 +129,37 @@ public class LibraryDAOImpl implements LibraryDAO {
 
     @Override
     public void deleteMember(Integer id) {
-        // Get a list of book IDs the member has checked out
+        // Get a list of book IDS the member has checked out
         Session currentSession = entityManager.unwrap(Session.class);
-        Query<Book> bookQuery = currentSession.createQuery("FROM Book b WHERE b.memberID = :id", Book.class);
-        bookQuery.setParameter("id", id);
-        List<Book> books = bookQuery.getResultList();
-        List<Integer> bookIDs = books.stream().map(Book::getBookID).collect(Collectors.toList());
+
+        // The below commented 3 lines work
+//        Query<CheckOutTransaction> checkOutTransactionQuery = currentSession.createQuery("FROM CheckOutTransaction co " +
+//                "WHERE co.memberID = :id", CheckOutTransaction.class).setParameter("id", id);
+//        List<CheckOutTransaction> checkOutTransactions = checkOutTransactionQuery.getResultList();
+
+        try {
+            Query<CheckOutTransaction> checkOutTransactionQuery = currentSession.createQuery(
+                    "FROM CheckOutTransaction co \n" +
+                    "LEFT JOIN CheckInTransaction ci ON co.checkOutTransactionID = ci.checkOutTransactionID \n" +
+                    "WHERE co.memberID = :id", CheckOutTransaction.class).setParameter("id", id);
+            List<CheckOutTransaction> checkOutTransactions = checkOutTransactionQuery.getResultList();
+            System.out.println("Breakpoint here");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+
+        /*
+        DELETE FROM BookAuthor ba WHERE ba.bookID=:id
+         */
+
+
+        List<Integer> bookIDs = new ArrayList<>();
+        // Get a list of book IDs the member has checked out
+//        Query<Book> bookQuery = currentSession.createQuery("FROM Book b WHERE b.memberID = :id", Book.class);
+//        bookQuery.setParameter("id", id);
+//        List<Book> books = bookQuery.getResultList();
+//        List<Integer> bookIDs = books.stream().map(Book::getBookID).collect(Collectors.toList());
 
         // Remove the MemberID entry for the book to indicate it is no longer checked out by the member
         if (!bookIDs.isEmpty()) {

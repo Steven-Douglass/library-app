@@ -1,4 +1,4 @@
-package com.sdouglass.librarybe.entity;
+package com.sdouglass.librarybe.checkouttransaction.entity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,4 +22,8 @@ public class CheckOutTransaction {
 
     @Column
     private String dateCheckedOut;
+
+    @OneToOne(mappedBy = "checkOutTransaction", cascade = CascadeType.ALL)
+    private CheckInTransaction checkInTransaction;
+
 }

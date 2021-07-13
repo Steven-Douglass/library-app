@@ -4,6 +4,8 @@ import com.sdouglass.librarybe.address.entity.Address;
 import com.sdouglass.librarybe.address.service.AddressService;
 import com.sdouglass.librarybe.author.entity.Author;
 import com.sdouglass.librarybe.author.service.AuthorService;
+import com.sdouglass.librarybe.checkouttransaction.entity.CheckOutTransaction;
+import com.sdouglass.librarybe.checkouttransaction.service.CheckOutTransactionService;
 import com.sdouglass.librarybe.entity.*;
 import com.sdouglass.librarybe.service.LibraryService;
 import lombok.NoArgsConstructor;
@@ -33,6 +35,8 @@ public class LibraryImplTests {
     private AddressService addressService;
     @Autowired
     private AuthorService authorService;
+    @Autowired
+    private CheckOutTransactionService checkOutTransactionService;
 
     @BeforeEach
     void setUp() {
@@ -235,18 +239,25 @@ public class LibraryImplTests {
     @Order(12)
     void deleteBook() {
         // Given
-        String expectedException = "Book ID not found - 1";
+        String expectedException = "Book ID not found - 11";
         String actualException = "";
+        Book newBook = new Book();
+        newBook.setTitle("Roughing It");
+        newBook.setPublishDate("1872-02-01");
 
         // When
-        libraryService.deleteBook(1);
+        libraryService.saveBook(newBook);
+        Book savedBook = libraryService.getBook(11);
+
+        libraryService.deleteBook(11);
         try {
-            Book book = libraryService.getBook(1);
+            Book book = libraryService.getBook(11);
         } catch (RuntimeException e) {
             actualException = e.getMessage();
         }
 
         // Then
+        assertEquals(newBook, savedBook);
         assertEquals(expectedException, actualException);
     }
 
@@ -257,7 +268,6 @@ public class LibraryImplTests {
         Library expectedLibrary = new Library();
         expectedLibrary.setLibraryID(1);
         expectedLibrary.setName("Greater Learning Library");
-        expectedLibrary.setAddressID(5);
 
         // When
         Library actualLibrary = libraryService.getLibrary(1);
@@ -286,11 +296,11 @@ public class LibraryImplTests {
         newAddress.setCity("Philadelphia");
         newAddress.setState("PA");
         newAddress.setPostalCode("19103");
-        addressService.saveAddress(newAddress);
+//        addressService.saveAddress(newAddress);
 
         Library newLibrary = new Library();
         newLibrary.setName("The Free Library Of Philadelphia");
-        newLibrary.setAddressID(9);
+        newLibrary.setAddress(newAddress);
 
         // When
         libraryService.saveLibrary(newLibrary);
@@ -304,18 +314,33 @@ public class LibraryImplTests {
     @Order(16)
     void deleteLibrary() {
         // Given
-        String expectedException = "Library ID not found - 1";
+        String expectedException = "Library ID not found - 3";
         String actualException = "";
 
+        Address newAddress = new Address();
+        newAddress.setAddressLine1("414 Burberry Plaza");
+        newAddress.setAddressLine2("Unit 37");
+        newAddress.setCity("Philadelphia");
+        newAddress.setState("PA");
+        newAddress.setPostalCode("19103");
+//        addressService.saveAddress(newAddress);
+
+        Library newLibrary = new Library();
+        newLibrary.setName("The Free Library Of Philadelphia");
+        newLibrary.setAddress(newAddress);
+        libraryService.saveLibrary(newLibrary);
+
         // When
-        libraryService.deleteLibrary(1);
+        Library savedLibrary = libraryService.getLibrary(3);
+        libraryService.deleteLibrary(3);
         try {
-            Library library = libraryService.getLibrary(1);
+            Library library = libraryService.getLibrary(3);
         } catch (RuntimeException e) {
             actualException = e.getMessage();
         }
 
         // Then
+        assertEquals(newLibrary, savedLibrary);
         assertEquals(expectedException, actualException);
     }
 
@@ -327,7 +352,6 @@ public class LibraryImplTests {
         expectedMember.setMemberID(1);
         expectedMember.setFirstName("Steven");
         expectedMember.setLastName("Douglass");
-        expectedMember.setAddressID(1);
 
         // When
         Member actualMember = libraryService.getMember(1);
@@ -356,12 +380,12 @@ public class LibraryImplTests {
         newAddress.setCity("Philadelphia");
         newAddress.setState("PA");
         newAddress.setPostalCode("19103");
-        addressService.saveAddress(newAddress);
+//        addressService.saveAddress(newAddress);
 
         Member newMember = new Member();
         newMember.setFirstName("Jon");
         newMember.setLastName("Tran");
-        newMember.setAddressID(9);
+        newMember.setAddress(newAddress);
 
         // When
         libraryService.saveMember(newMember);
@@ -375,13 +399,29 @@ public class LibraryImplTests {
     @Order(20)
     void deleteMember() {
         // Given
-        String expectedException = "Member ID not found - 1";
+        String expectedException = "Member ID not found - 6";
         String actualException = "";
 
+        Address newAddress = new Address();
+        newAddress.setAddressLine1("414 Burberry Plaza");
+        newAddress.setAddressLine2("Unit 37");
+        newAddress.setCity("Philadelphia");
+        newAddress.setState("PA");
+        newAddress.setPostalCode("19103");
+//        addressService.saveAddress(newAddress);
+
+        Member newMember = new Member();
+        newMember.setFirstName("Jon");
+        newMember.setLastName("Tran");
+        newMember.setAddress(newAddress);
+
         // When
+        libraryService.saveMember(newMember);
+        Member savedMember = libraryService.getMember(6);
+
         try {
-            libraryService.deleteMember(1);
-            Member member = libraryService.getMember(1);
+            libraryService.deleteMember(6);
+            Member member = libraryService.getMember(6);
         } catch (DataIntegrityViolationException e) {
             actualException = e.getMessage();
         } catch (RuntimeException e) {
@@ -389,6 +429,32 @@ public class LibraryImplTests {
         }
 
         // Then
+        assertEquals(newMember, savedMember);
         assertEquals(expectedException, actualException);
     }
+
+    @Test
+    void getAllCheckOutTransactions() {
+        // Given
+        Integer numberOfTransactions = 8;
+
+        // When
+        List<CheckOutTransaction> checkOutTransactionList = checkOutTransactionService.getAllCheckOutTransactions();
+
+        // Then
+        assertEquals(numberOfTransactions, checkOutTransactionList.size());
+    }
+
+    @Test
+    void getAllCheckOutTransactionsNotReturned() {
+        // Given
+        Integer numberOfTransactionsNotReturned = 4;
+
+        // When
+        List<CheckOutTransaction> checkOutTransactionsNotReturnedList = checkOutTransactionService.getAllCheckOutTransactionsNotReturned();
+
+        // Then
+        assertEquals(numberOfTransactionsNotReturned, checkOutTransactionsNotReturnedList.size());
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.sdouglass.librarybe.address.entity;
 
+import com.sdouglass.librarybe.entity.Library;
+import com.sdouglass.librarybe.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +30,12 @@ public class Address {
 
     @Column
     private String postalCode;
+
+    @OneToOne(mappedBy = "address")
+    private Member member;
+
+    @OneToOne(mappedBy = "address")
+    private Library library;
 
     @Override
     public boolean equals(Object object) {
