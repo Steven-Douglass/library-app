@@ -23,7 +23,7 @@ public class Member {
     @Column
     private String lastName;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="AddressID")
     @JsonIgnore
     private Address address;

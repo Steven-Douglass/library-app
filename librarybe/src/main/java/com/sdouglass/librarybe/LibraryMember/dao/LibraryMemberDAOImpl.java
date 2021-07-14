@@ -4,10 +4,12 @@ import com.sdouglass.librarybe.LibraryMember.entity.LibraryMember;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Repository
 public class LibraryMemberDAOImpl implements LibraryMemberDAO {
 
     private final EntityManager entityManager;
@@ -42,6 +44,14 @@ public class LibraryMemberDAOImpl implements LibraryMemberDAO {
         Session currentSession = entityManager.unwrap(Session.class);
         Query addressQuery = currentSession.createQuery("DELETE FROM LibraryMember lm WHERE lm.libraryMemberID = :id");
         addressQuery.setParameter("id", id);
+        addressQuery.executeUpdate();
+    }
+
+    @Override
+    public void deleteLibraryMemberForMemberId(Integer memberId) {
+        Session currentSession = entityManager.unwrap(Session.class);
+        Query addressQuery = currentSession.createQuery("DELETE FROM LibraryMember lm WHERE lm.memberID = :memberId");
+        addressQuery.setParameter("memberId", memberId);
         addressQuery.executeUpdate();
     }
 }

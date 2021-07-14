@@ -15,6 +15,7 @@ public interface CheckOutTransactionService {
 
     public List<CheckOutTransaction> getAllCheckOutTransactionsForMember(Integer memberId);
     public List<CheckOutTransaction> getAllCheckedOutTransactionsNotReturnedForMember(Integer memberId);
+    public void deleteAllCheckOutTransactionsForMember(Integer memberId);
 
     public List<CheckOutTransaction> getAllCheckOutTransactionsForBook(Integer bookInstanceId);
     public CheckOutTransaction getCheckedOutTransactionNotReturnedForBook(Integer bookInstanceId);

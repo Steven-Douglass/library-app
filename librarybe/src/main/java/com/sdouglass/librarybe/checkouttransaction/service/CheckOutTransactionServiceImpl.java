@@ -25,7 +25,11 @@ public class CheckOutTransactionServiceImpl implements CheckOutTransactionServic
     @Override
     @Transactional
     public CheckOutTransaction getCheckOutTransaction(Integer id) {
-        return checkOutTransactionDAO.getCheckOutTransaction(id);
+        CheckOutTransaction checkOutTransaction = checkOutTransactionDAO.getCheckOutTransaction(id);
+        if (checkOutTransaction == null) {
+            throw new RuntimeException("CheckOutTransaction ID not found - " + id);
+        }
+        return checkOutTransaction;
     }
 
     @Override
@@ -77,6 +81,17 @@ public class CheckOutTransactionServiceImpl implements CheckOutTransactionServic
     @Transactional
     public List<CheckOutTransaction> getAllCheckedOutTransactionsNotReturnedForMember(Integer memberId) {
         return checkOutTransactionDAO.getAllCheckedOutTransactionsNotReturnedForMember(memberId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllCheckOutTransactionsForMember(Integer memberId) {
+        List<CheckOutTransaction> getAllCheckOutTransactionsForMember =
+                this.getAllCheckOutTransactionsForMember(memberId);
+
+        for (CheckOutTransaction checkOutTransaction : getAllCheckOutTransactionsForMember) {
+            deleteCheckOutTransaction(checkOutTransaction.getCheckOutTransactionID());
+        }
     }
 
     @Override

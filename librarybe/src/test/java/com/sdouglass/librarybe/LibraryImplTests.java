@@ -1,5 +1,7 @@
 package com.sdouglass.librarybe;
 
+import com.sdouglass.librarybe.LibraryMember.entity.LibraryMember;
+import com.sdouglass.librarybe.LibraryMember.service.LibraryMemberService;
 import com.sdouglass.librarybe.address.entity.Address;
 import com.sdouglass.librarybe.address.service.AddressService;
 import com.sdouglass.librarybe.author.entity.Author;
@@ -39,6 +41,8 @@ public class LibraryImplTests {
     private AuthorService authorService;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private LibraryMemberService libraryMemberService;
     @Autowired
     private CheckOutTransactionService checkOutTransactionService;
 
@@ -400,37 +404,84 @@ public class LibraryImplTests {
     @Order(20)
     void deleteMember() {
         // Given
-        String expectedException = "Member ID not found - 6";
-        String actualException = "";
-
-        Address newAddress = new Address();
-        newAddress.setAddressLine1("414 Burberry Plaza");
-        newAddress.setAddressLine2("Unit 37");
-        newAddress.setCity("Philadelphia");
-        newAddress.setState("PA");
-        newAddress.setPostalCode("19103");
-
-        Member newMember = new Member();
-        newMember.setFirstName("Jon");
-        newMember.setLastName("Tran");
-        newMember.setAddress(newAddress);
+        String expectedMemberException = "Member ID not found - 1";
+        String actualMemberException = "";
+        String expectedAddressException = "Address ID not found - 1";
+        String actualAddressException = "";
+        String expectedLibraryMemberException1 = "LibraryMember ID not found - 1";
+        String actualLibraryMemberException1 = "";
+        String expectedLibraryMemberException2 = "LibraryMember ID not found - 2";
+        String actualLibraryMemberException2 = "";
+        String expectedCheckOutTransactionException1 = "CheckOutTransaction ID not found - 1";
+        String actualCheckOutTransactionException1 = "";
+        String expectedCheckOutTransactionException2 = "CheckOutTransaction ID not found - 3";
+        String actualCheckOutTransactionException2 = "";
+        String expectedCheckOutTransactionException3 = "CheckOutTransaction ID not found - 4";
+        String actualCheckOutTransactionException3 = "";
 
         // When
-        memberService.saveMember(newMember);
-        Member savedMember = memberService.getMember(6);
+        try {
+            memberService.deleteMember(1);
+            Member member = memberService.getMember(1);
+        } catch (DataIntegrityViolationException e) {
+            actualMemberException = e.getMessage();
+        } catch (RuntimeException e) {
+            actualMemberException = e.getMessage();
+        }
 
         try {
-            memberService.deleteMember(6);
-            Member member = memberService.getMember(6);
+            Address address = addressService.getAddress(1);
         } catch (DataIntegrityViolationException e) {
-            actualException = e.getMessage();
+            actualAddressException = e.getMessage();
         } catch (RuntimeException e) {
-            actualException = e.getMessage();
+            actualAddressException = e.getMessage();
+        }
+
+        try {
+            LibraryMember libraryMember = libraryMemberService.getLibraryMember(1);
+        } catch (DataIntegrityViolationException e) {
+            actualLibraryMemberException1 = e.getMessage();
+        } catch (RuntimeException e) {
+            actualLibraryMemberException1 = e.getMessage();
+        }
+
+        try {
+            LibraryMember libraryMember = libraryMemberService.getLibraryMember(2);
+        } catch (DataIntegrityViolationException e) {
+            actualLibraryMemberException2 = e.getMessage();
+        } catch (RuntimeException e) {
+            actualLibraryMemberException2 = e.getMessage();
+        }
+
+        try {
+            CheckOutTransaction checkOutTransaction = checkOutTransactionService.getCheckOutTransaction(1);
+        } catch (DataIntegrityViolationException e) {
+            actualCheckOutTransactionException1 = e.getMessage();
+        } catch (RuntimeException e) {
+            actualCheckOutTransactionException1 = e.getMessage();
+        }
+
+        try {
+            CheckOutTransaction checkOutTransaction = checkOutTransactionService.getCheckOutTransaction(3);
+        } catch (DataIntegrityViolationException e) {
+            actualCheckOutTransactionException2 = e.getMessage();
+        } catch (RuntimeException e) {
+            actualCheckOutTransactionException2 = e.getMessage();
+        }
+
+        try {
+            CheckOutTransaction checkOutTransaction = checkOutTransactionService.getCheckOutTransaction(4);
+        } catch (DataIntegrityViolationException e) {
+            actualCheckOutTransactionException3 = e.getMessage();
+        } catch (RuntimeException e) {
+            actualCheckOutTransactionException3 = e.getMessage();
         }
 
         // Then
-        assertEquals(newMember, savedMember);
-        assertEquals(expectedException, actualException);
+        assertEquals(expectedMemberException, actualMemberException);
+        assertEquals(expectedAddressException, actualAddressException);
+        assertEquals(expectedLibraryMemberException1, actualLibraryMemberException1);
+        assertEquals(expectedLibraryMemberException2, actualLibraryMemberException2);
     }
 
     @Test
