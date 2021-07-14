@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -58,12 +59,7 @@ public class CheckOutTransactionDAOImpl implements CheckOutTransactionDAO {
 
     @Override
     public Boolean isBookInstanceCheckedOut(Integer bookInstanceId) {
-        // Get list of CheckOutTransactions for the book
-        Session currentSession = entityManager.unwrap(Session.class);
-        Query checkOutTransactionQuery = currentSession.createQuery("FROM CheckOutTransaction co " +
-                "WHERE co.bookInstanceID = :bookInstanceId")
-                .setParameter("bookInstanceId", bookInstanceId);
-        List<CheckOutTransaction> checkOutTransactions = checkOutTransactionQuery.getResultList();
+        List<CheckOutTransaction> checkOutTransactions = getAllCheckOutTransactionsForBook(bookInstanceId);
 
         for (CheckOutTransaction checkOutTransaction : checkOutTransactions) {
             if (checkOutTransaction.getCheckInTransaction() == null) {
@@ -72,26 +68,52 @@ public class CheckOutTransactionDAOImpl implements CheckOutTransactionDAO {
         }
 
         return false;
-
     }
 
     @Override
-    public List<CheckOutTransaction> getAllCheckOutTransactionsForMember(Integer id) {
-        return null;
+    public List<CheckOutTransaction> getAllCheckOutTransactionsForMember(Integer memberId) {
+        Session currentSession = entityManager.unwrap(Session.class);
+        Query checkOutTransactionQuery = currentSession.createQuery("FROM CheckOutTransaction co " +
+                "WHERE co.memberID = :memberId")
+                .setParameter("memberId", memberId);
+        List<CheckOutTransaction> checkOutTransactions = checkOutTransactionQuery.getResultList();
+        return checkOutTransactions;
     }
 
     @Override
-    public CheckOutTransaction getAllCheckedOutTransactionsNotReturnedForMember(Integer id) {
-        return null;
+    public List<CheckOutTransaction> getAllCheckedOutTransactionsNotReturnedForMember(Integer memberId) {
+        List<CheckOutTransaction> transactionsWithBooksNotReturned = new ArrayList<>();
+        List<CheckOutTransaction> checkOutTransactions = getAllCheckOutTransactionsForMember(memberId);
+
+        for (CheckOutTransaction checkOutTransaction : checkOutTransactions) {
+            if (checkOutTransaction.getCheckInTransaction() == null) {
+                transactionsWithBooksNotReturned.add(checkOutTransaction);
+            }
+        }
+
+        return transactionsWithBooksNotReturned;
     }
 
     @Override
-    public List<CheckOutTransaction> getAllCheckOutTransactionsForBook(Integer id) {
-        return null;
+    public List<CheckOutTransaction> getAllCheckOutTransactionsForBook(Integer bookInstanceId) {
+        Session currentSession = entityManager.unwrap(Session.class);
+        Query checkOutTransactionQuery = currentSession.createQuery("FROM CheckOutTransaction co " +
+                "WHERE co.bookInstanceID = :bookInstanceId")
+                .setParameter("bookInstanceId", bookInstanceId);
+        List<CheckOutTransaction> checkOutTransactions = checkOutTransactionQuery.getResultList();
+        return checkOutTransactions;
     }
 
     @Override
-    public CheckOutTransaction getCheckedOutTransactionNotReturnedForBook(Integer id) {
+    public CheckOutTransaction getCheckedOutTransactionNotReturnedForBook(Integer bookInstanceId) {
+        if (isBookInstanceCheckedOut(bookInstanceId)) {
+            List<CheckOutTransaction> checkOutTransactions = getAllCheckOutTransactionsForBook(bookInstanceId);
+            for (CheckOutTransaction checkOutTransaction : checkOutTransactions) {
+                if (checkOutTransaction.getCheckInTransaction() == null) {
+                    return checkOutTransaction;
+                }
+            }
+        }
         return null;
     }
 }

@@ -494,4 +494,36 @@ public class LibraryImplTests {
         assertFalse(isNotCheckedOut);
     }
 
+    @Test
+    void getCheckedOutTransactionNotReturnedForBook() {
+        // Given
+        CheckOutTransaction expectedCheckOutTransaction = checkOutTransactionService.getCheckOutTransaction(9);
+
+        // When
+        CheckOutTransaction actualCheckOutTransaction = checkOutTransactionService.getCheckedOutTransactionNotReturnedForBook(22);
+        CheckOutTransaction checkOutTransactionNull = checkOutTransactionService.getCheckedOutTransactionNotReturnedForBook(1);
+
+        // Then
+        assertEquals(expectedCheckOutTransaction, actualCheckOutTransaction);
+        assertNull(checkOutTransactionNull);
+    }
+
+    @Test
+    void getAllCheckOutTransactionsForMember() {
+        // Given
+        Integer memberId = 1;
+        Integer totalTransactions = 3;
+        Integer booksCurrentlyCheckedOut = 1;
+
+        // When
+        List<CheckOutTransaction> checkOutTransactions = checkOutTransactionService
+                .getAllCheckOutTransactionsForMember(memberId);
+        List<CheckOutTransaction> checkedOutTransactionsNotReturned = checkOutTransactionService
+                .getAllCheckedOutTransactionsNotReturnedForMember(memberId);
+
+        // Then
+        assertEquals(totalTransactions, checkOutTransactions.size());
+        assertEquals(booksCurrentlyCheckedOut, checkedOutTransactionsNotReturned.size());
+    }
+
 }

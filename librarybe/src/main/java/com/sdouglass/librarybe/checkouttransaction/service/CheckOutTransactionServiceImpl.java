@@ -69,25 +69,25 @@ public class CheckOutTransactionServiceImpl implements CheckOutTransactionServic
 
     @Override
     @Transactional
-    public List<CheckOutTransaction> getAllCheckOutTransactionsForMember(Integer id) {
-        return checkOutTransactionDAO.getAllCheckOutTransactionsForMember(id);
+    public List<CheckOutTransaction> getAllCheckOutTransactionsForMember(Integer memberId) {
+        return checkOutTransactionDAO.getAllCheckOutTransactionsForMember(memberId);
     }
 
     @Override
     @Transactional
-    public CheckOutTransaction getAllCheckedOutTransactionsNotReturnedForMember(Integer id) {
-        return checkOutTransactionDAO.getAllCheckedOutTransactionsNotReturnedForMember(id);
+    public List<CheckOutTransaction> getAllCheckedOutTransactionsNotReturnedForMember(Integer memberId) {
+        return checkOutTransactionDAO.getAllCheckedOutTransactionsNotReturnedForMember(memberId);
     }
 
     @Override
     @Transactional
-    public List<CheckOutTransaction> getAllCheckOutTransactionsForBook(Integer id) {
-        return checkOutTransactionDAO.getAllCheckOutTransactionsForBook(id);
+    public List<CheckOutTransaction> getAllCheckOutTransactionsForBook(Integer bookInstanceId) {
+        return checkOutTransactionDAO.getAllCheckOutTransactionsForBook(bookInstanceId);
     }
 
     @Override
     @Transactional
-    public CheckOutTransaction getCheckedOutTransactionNotReturnedForBook(Integer id) {
-        return checkOutTransactionDAO.getCheckedOutTransactionNotReturnedForBook(id);
+    public CheckOutTransaction getCheckedOutTransactionNotReturnedForBook(Integer bookInstanceId) {
+        return checkOutTransactionDAO.getCheckedOutTransactionNotReturnedForBook(bookInstanceId);
     }
 }

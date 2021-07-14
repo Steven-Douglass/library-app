@@ -13,11 +13,11 @@ public interface CheckOutTransactionDAO {
     public void deleteCheckOutTransaction(Integer id);
     public Boolean isBookInstanceCheckedOut(Integer bookInstanceId);
 
-    public List<CheckOutTransaction> getAllCheckOutTransactionsForMember(Integer id);
-    public CheckOutTransaction getAllCheckedOutTransactionsNotReturnedForMember(Integer id);
+    public List<CheckOutTransaction> getAllCheckOutTransactionsForMember(Integer memberId);
+    public List<CheckOutTransaction> getAllCheckedOutTransactionsNotReturnedForMember(Integer memberId);
 
-    public List<CheckOutTransaction> getAllCheckOutTransactionsForBook(Integer id);
-    public CheckOutTransaction getCheckedOutTransactionNotReturnedForBook(Integer id);
+    public List<CheckOutTransaction> getAllCheckOutTransactionsForBook(Integer bookInstanceId);
+    public CheckOutTransaction getCheckedOutTransactionNotReturnedForBook(Integer bookInstanceId);
 }
 
 
