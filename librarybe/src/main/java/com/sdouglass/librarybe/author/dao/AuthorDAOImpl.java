@@ -1,7 +1,7 @@
 package com.sdouglass.librarybe.author.dao;
 
 import com.sdouglass.librarybe.author.entity.Author;
-import com.sdouglass.librarybe.entity.BookAuthor;
+import com.sdouglass.librarybe.bookauthor.entity.BookAuthor;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
