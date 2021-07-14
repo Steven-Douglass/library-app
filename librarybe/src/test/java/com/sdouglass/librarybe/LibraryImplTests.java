@@ -482,6 +482,9 @@ public class LibraryImplTests {
         assertEquals(expectedAddressException, actualAddressException);
         assertEquals(expectedLibraryMemberException1, actualLibraryMemberException1);
         assertEquals(expectedLibraryMemberException2, actualLibraryMemberException2);
+        assertEquals(expectedCheckOutTransactionException1, actualCheckOutTransactionException1);
+        assertEquals(expectedCheckOutTransactionException2, actualCheckOutTransactionException2);
+        assertEquals(expectedCheckOutTransactionException3, actualCheckOutTransactionException3);
     }
 
     @Test
