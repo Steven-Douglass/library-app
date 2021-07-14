@@ -1,5 +1,7 @@
-package com.sdouglass.librarybe.entity;
+package com.sdouglass.librarybe.member.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sdouglass.librarybe.address.entity.Address;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,8 +23,9 @@ public class Member {
     @Column
     private String lastName;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="AddressID")
+    @JsonIgnore
     private Address address;
 
     @Override

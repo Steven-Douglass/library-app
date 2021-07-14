@@ -1,5 +1,6 @@
 package com.sdouglass.librarybe.entity;
 
+import com.sdouglass.librarybe.member.entity.Member;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -7,6 +7,8 @@ import com.sdouglass.librarybe.author.service.AuthorService;
 import com.sdouglass.librarybe.checkouttransaction.entity.CheckOutTransaction;
 import com.sdouglass.librarybe.checkouttransaction.service.CheckOutTransactionService;
 import com.sdouglass.librarybe.entity.*;
+import com.sdouglass.librarybe.member.entity.Member;
+import com.sdouglass.librarybe.member.service.MemberService;
 import com.sdouglass.librarybe.service.LibraryService;
 import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.*;
@@ -35,6 +37,8 @@ public class LibraryImplTests {
     private AddressService addressService;
     @Autowired
     private AuthorService authorService;
+    @Autowired
+    private MemberService memberService;
     @Autowired
     private CheckOutTransactionService checkOutTransactionService;
 
@@ -352,7 +356,7 @@ public class LibraryImplTests {
         expectedMember.setLastName("Douglass");
 
         // When
-        Member actualMember = libraryService.getMember(1);
+        Member actualMember = memberService.getMember(1);
 
         // Then
         assertTrue(expectedMember.equals(actualMember));
@@ -362,7 +366,7 @@ public class LibraryImplTests {
     @Order(18)
     void getAllMembers() {
         // When
-        List<Member> members = libraryService.getAllMembers();
+        List<Member> members = memberService.getAllMembers();
 
         // Then
         assertEquals(6, members.size());
@@ -385,8 +389,8 @@ public class LibraryImplTests {
         newMember.setAddress(newAddress);
 
         // When
-        libraryService.saveMember(newMember);
-        Member savedMember = libraryService.getMember(7);
+        memberService.saveMember(newMember);
+        Member savedMember = memberService.getMember(7);
 
         // Then
         assertTrue(newMember.equals(savedMember));
@@ -412,12 +416,12 @@ public class LibraryImplTests {
         newMember.setAddress(newAddress);
 
         // When
-        libraryService.saveMember(newMember);
-        Member savedMember = libraryService.getMember(6);
+        memberService.saveMember(newMember);
+        Member savedMember = memberService.getMember(6);
 
         try {
-            libraryService.deleteMember(6);
-            Member member = libraryService.getMember(6);
+            memberService.deleteMember(6);
+            Member member = memberService.getMember(6);
         } catch (DataIntegrityViolationException e) {
             actualException = e.getMessage();
         } catch (RuntimeException e) {

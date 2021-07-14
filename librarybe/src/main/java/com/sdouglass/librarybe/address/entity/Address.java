@@ -1,7 +1,7 @@
 package com.sdouglass.librarybe.address.entity;
 
 import com.sdouglass.librarybe.entity.Library;
-import com.sdouglass.librarybe.entity.Member;
+import com.sdouglass.librarybe.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,7 +31,7 @@ public class Address {
     @Column
     private String postalCode;
 
-    @OneToOne(mappedBy = "address")
+    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
     private Member member;
 
     @OneToOne(mappedBy = "address")

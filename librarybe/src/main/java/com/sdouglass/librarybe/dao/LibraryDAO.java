@@ -1,7 +1,7 @@
 package com.sdouglass.librarybe.dao;
 
-import com.sdouglass.librarybe.author.entity.Author;
 import com.sdouglass.librarybe.entity.*;
+import com.sdouglass.librarybe.member.entity.Member;
 
 import java.util.List;
 
@@ -15,9 +15,4 @@ public interface LibraryDAO {
     public List<Library> getAllLibraries();
     public void saveLibrary(Library library);
     public void deleteLibrary(Integer id);
-
-    public Member getMember(Integer id);
-    public List<Member> getAllMembers();
-    public void saveMember(Member member);
-    public void deleteMember(Integer id);
 }

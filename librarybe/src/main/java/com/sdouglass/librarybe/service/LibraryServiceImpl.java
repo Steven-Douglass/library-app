@@ -1,8 +1,8 @@
 package com.sdouglass.librarybe.service;
 
-import com.sdouglass.librarybe.author.entity.Author;
 import com.sdouglass.librarybe.dao.LibraryDAO;
 import com.sdouglass.librarybe.entity.*;
+import com.sdouglass.librarybe.member.entity.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,35 +80,5 @@ public class LibraryServiceImpl implements LibraryService {
         Library library = getLibrary(id);
         libraryDAO.deleteLibrary(library.getLibraryID());
         return "Deleted Library with ID: " + id;
-    }
-
-    @Override
-    @Transactional
-    public Member getMember(Integer id) {
-        Member member = libraryDAO.getMember(id);
-        if (member == null) {
-            throw new RuntimeException("Member ID not found - " + id);
-        }
-        return member;
-    }
-
-    @Override
-    @Transactional
-    public List<Member> getAllMembers() {
-        return libraryDAO.getAllMembers();
-    }
-
-    @Override
-    @Transactional
-    public void saveMember(Member member) {
-        libraryDAO.saveMember(member);
-    }
-
-    @Override
-    @Transactional
-    public String deleteMember(Integer id) {
-        Member member = getMember(id);
-        libraryDAO.deleteMember(member.getMemberID());
-        return "Deleted Member with ID: " + id;
     }
 }
