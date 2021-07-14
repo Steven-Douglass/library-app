@@ -1,4 +1,4 @@
-package com.sdouglass.librarybe.entity;
+package com.sdouglass.librarybe.LibraryMember.entity;
 
 import lombok.Getter;
 import lombok.Setter;

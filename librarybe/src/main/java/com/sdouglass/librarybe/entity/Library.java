@@ -1,5 +1,6 @@
 package com.sdouglass.librarybe.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sdouglass.librarybe.address.entity.Address;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class Library {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="AddressID")
+    @JsonIgnore
     private Address address;
 
     @Override
