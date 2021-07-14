@@ -469,4 +469,29 @@ public class LibraryImplTests {
         assertTrue(newCheckOutTransaction.equals(savedCheckOutTransaction));
     }
 
+    @Test
+    void deleteCheckOutTransaction() {
+        // When
+        checkOutTransactionService.deleteCheckOutTransaction(1);
+        checkOutTransactionService.deleteCheckOutTransaction(2);
+        checkOutTransactionService.deleteCheckOutTransaction(3);
+        checkOutTransactionService.deleteCheckOutTransaction(5);
+
+        List<CheckOutTransaction> checkOutTransactionList = checkOutTransactionService.getAllCheckOutTransactions();
+
+        // Then
+        assertEquals(4, checkOutTransactionList.size());
+    }
+
+    @Test
+    void isBookInstanceCheckedOut() {
+        // When
+        Boolean isCheckedOut = checkOutTransactionService.isBookInstanceCheckedOut(22);
+        Boolean isNotCheckedOut = checkOutTransactionService.isBookInstanceCheckedOut(1);
+
+        // Then
+        assertTrue(isCheckedOut);
+        assertFalse(isNotCheckedOut);
+    }
+
 }

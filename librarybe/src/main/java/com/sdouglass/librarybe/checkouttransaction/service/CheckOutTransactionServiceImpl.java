@@ -50,8 +50,8 @@ public class CheckOutTransactionServiceImpl implements CheckOutTransactionServic
 
     @Override
     @Transactional
-    public Boolean isBookInstanceCheckedOut(Integer id) {
-        return checkOutTransactionDAO.isBookInstanceCheckedOut(id);
+    public Boolean isBookInstanceCheckedOut(Integer bookInstanceId) {
+        return checkOutTransactionDAO.isBookInstanceCheckedOut(bookInstanceId);
     }
 
     @Override

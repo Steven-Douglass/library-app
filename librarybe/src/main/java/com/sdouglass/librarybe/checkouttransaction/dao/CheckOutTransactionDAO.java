@@ -11,7 +11,7 @@ public interface CheckOutTransactionDAO {
     public List<CheckOutTransaction> getAllCheckOutTransactionsNotReturned();
     public void saveCheckOutTransaction(CheckOutTransaction checkOutTransaction);
     public void deleteCheckOutTransaction(Integer id);
-    public Boolean isBookInstanceCheckedOut(Integer id);
+    public Boolean isBookInstanceCheckedOut(Integer bookInstanceId);
 
     public List<CheckOutTransaction> getAllCheckOutTransactionsForMember(Integer id);
     public CheckOutTransaction getAllCheckedOutTransactionsNotReturnedForMember(Integer id);

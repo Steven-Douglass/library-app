@@ -94,6 +94,7 @@ INSERT INTO library.checkouttransaction(CheckOutTransactionID, BookInstanceID, M
 INSERT INTO library.checkouttransaction(CheckOutTransactionID, BookInstanceID, MemberID, DateCheckedOut) VALUES (6, 24, 6, '2020-05-02');
 INSERT INTO library.checkouttransaction(CheckOutTransactionID, BookInstanceID, MemberID, DateCheckedOut) VALUES (7, 17, 6, '2020-05-02');
 INSERT INTO library.checkouttransaction(CheckOutTransactionID, BookInstanceID, MemberID, DateCheckedOut) VALUES (8, 10, 3, '2020-04-22');
+INSERT INTO library.checkouttransaction(CheckOutTransactionID, BookInstanceID, MemberID, DateCheckedOut) VALUES (9, 22, 2, '2020-06-19');
 
 INSERT INTO library.checkintransaction(CheckInTransactionID, CheckOutTransactionID, DateCheckedIn) VALUES (1, 1, '2020-03-16');
 INSERT INTO library.checkintransaction(CheckInTransactionID, CheckOutTransactionID, DateCheckedIn) VALUES (2, 3, '2020-04-22');

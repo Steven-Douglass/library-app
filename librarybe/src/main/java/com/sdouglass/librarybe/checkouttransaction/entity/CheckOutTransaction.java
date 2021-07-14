@@ -1,6 +1,6 @@
 package com.sdouglass.librarybe.checkouttransaction.entity;
 
-import com.sdouglass.librarybe.author.entity.Author;
+import com.sdouglass.librarybe.checkintransaction.entity.CheckInTransaction;
 import lombok.Getter;
 import lombok.Setter;
 

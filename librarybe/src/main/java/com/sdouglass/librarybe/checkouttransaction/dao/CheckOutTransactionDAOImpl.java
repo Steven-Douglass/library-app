@@ -50,12 +50,29 @@ public class CheckOutTransactionDAOImpl implements CheckOutTransactionDAO {
 
     @Override
     public void deleteCheckOutTransaction(Integer id) {
-
+        Session currentSession = entityManager.unwrap(Session.class);
+        Query deleteQuery = currentSession.createQuery("DELETE FROM CheckOutTransaction co WHERE co.checkOutTransactionID = :id");
+        deleteQuery.setParameter("id", id);
+        deleteQuery.executeUpdate();
     }
 
     @Override
-    public Boolean isBookInstanceCheckedOut(Integer id) {
-        return null;
+    public Boolean isBookInstanceCheckedOut(Integer bookInstanceId) {
+        // Get list of CheckOutTransactions for the book
+        Session currentSession = entityManager.unwrap(Session.class);
+        Query checkOutTransactionQuery = currentSession.createQuery("FROM CheckOutTransaction co " +
+                "WHERE co.bookInstanceID = :bookInstanceId")
+                .setParameter("bookInstanceId", bookInstanceId);
+        List<CheckOutTransaction> checkOutTransactions = checkOutTransactionQuery.getResultList();
+
+        for (CheckOutTransaction checkOutTransaction : checkOutTransactions) {
+            if (checkOutTransaction.getCheckInTransaction() == null) {
+                return true;
+            }
+        }
+
+        return false;
+
     }
 
     @Override
