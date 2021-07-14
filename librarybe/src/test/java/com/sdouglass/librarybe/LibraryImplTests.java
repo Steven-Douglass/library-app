@@ -1,11 +1,13 @@
 package com.sdouglass.librarybe;
 
+import com.sdouglass.librarybe.book.entity.Book;
 import com.sdouglass.librarybe.LibraryMember.entity.LibraryMember;
 import com.sdouglass.librarybe.LibraryMember.service.LibraryMemberService;
 import com.sdouglass.librarybe.address.entity.Address;
 import com.sdouglass.librarybe.address.service.AddressService;
 import com.sdouglass.librarybe.author.entity.Author;
 import com.sdouglass.librarybe.author.service.AuthorService;
+import com.sdouglass.librarybe.book.service.BookService;
 import com.sdouglass.librarybe.checkouttransaction.entity.CheckOutTransaction;
 import com.sdouglass.librarybe.checkouttransaction.service.CheckOutTransactionService;
 import com.sdouglass.librarybe.entity.*;
@@ -39,6 +41,8 @@ public class LibraryImplTests {
     private AddressService addressService;
     @Autowired
     private AuthorService authorService;
+    @Autowired
+    private BookService bookService;
     @Autowired
     private MemberService memberService;
     @Autowired
@@ -211,7 +215,7 @@ public class LibraryImplTests {
         expectedBook.setPublishDate("1849-05-01");
 
         // When
-        Book actualBook = libraryService.getBook(1);
+        Book actualBook = bookService.getBook(1);
 
         // Then
         assertTrue(expectedBook.equals(actualBook));
@@ -221,7 +225,7 @@ public class LibraryImplTests {
     @Order(10)
     void getAllBooks() {
         // When
-        List<Book> books = libraryService.getAllBooks();
+        List<Book> books = bookService.getAllBooks();
 
         // Then
         assertEquals(10, books.size());
@@ -236,8 +240,8 @@ public class LibraryImplTests {
         newBook.setPublishDate("1872-02-01");
 
         // When
-        libraryService.saveBook(newBook);
-        Book savedBook = libraryService.getBook(11);
+        bookService.saveBook(newBook);
+        Book savedBook = bookService.getBook(11);
 
         // Then
         assertTrue(newBook.equals(savedBook));
@@ -254,12 +258,12 @@ public class LibraryImplTests {
         newBook.setPublishDate("1872-02-01");
 
         // When
-        libraryService.saveBook(newBook);
-        Book savedBook = libraryService.getBook(11);
+        bookService.saveBook(newBook);
+        Book savedBook = bookService.getBook(11);
 
-        libraryService.deleteBook(11);
+        bookService.deleteBook(11);
         try {
-            Book book = libraryService.getBook(11);
+            Book book = bookService.getBook(11);
         } catch (RuntimeException e) {
             actualException = e.getMessage();
         }

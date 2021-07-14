@@ -1,9 +1,9 @@
 package com.sdouglass.librarybe.controller;
 
+import com.sdouglass.librarybe.book.entity.Book;
 import com.sdouglass.librarybe.address.service.AddressService;
 import com.sdouglass.librarybe.author.service.AuthorService;
 import com.sdouglass.librarybe.entity.*;
-import com.sdouglass.librarybe.member.entity.Member;
 import com.sdouglass.librarybe.service.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,33 +23,6 @@ public class LibraryAPIController {
         this.libraryService = libraryService;
         this.addressService = addressService;
         this.authorService = authorService;
-    }
-
-    @GetMapping("/book/{id}")
-    public Book getBook(@PathVariable Integer id) {
-        return libraryService.getBook(id);
-    }
-
-    @GetMapping("/book")
-    public List<Book> getBooks() {
-        return libraryService.getAllBooks();
-    }
-
-    @PostMapping("/book")
-    public Book addBook(@RequestBody Book book) {
-        libraryService.saveBook(book);
-        return book;
-    }
-
-    @PutMapping("/book")
-    public Book updateBook(@RequestBody Book book) {
-        libraryService.saveBook(book);
-        return book;
-    }
-
-    @DeleteMapping("/book/{id}")
-    public String deleteBook(@PathVariable Integer id) {
-        return libraryService.deleteBook(id);
     }
 
     @GetMapping("/library/{id}")

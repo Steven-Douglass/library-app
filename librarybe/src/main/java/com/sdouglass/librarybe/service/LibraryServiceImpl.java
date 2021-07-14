@@ -1,8 +1,8 @@
 package com.sdouglass.librarybe.service;
 
+import com.sdouglass.librarybe.book.entity.Book;
 import com.sdouglass.librarybe.dao.LibraryDAO;
 import com.sdouglass.librarybe.entity.*;
-import com.sdouglass.librarybe.member.entity.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,40 +16,6 @@ public class LibraryServiceImpl implements LibraryService {
     @Autowired
     public LibraryServiceImpl(LibraryDAO libraryDAO){
         this.libraryDAO = libraryDAO;
-    }
-
-    @Override
-    @Transactional
-    public Book getBook(Integer id) {
-        Book book = libraryDAO.getBook(id);
-        if (book == null) {
-            throw new RuntimeException("Book ID not found - " + id);
-        }
-        return book;
-    }
-
-    @Override
-    @Transactional
-    public List<Book> getAllBooks() {
-        return libraryDAO.getAllBooks();
-    }
-
-    @Override
-    @Transactional
-    public void saveBook(Book book) {
-        try {
-            libraryDAO.saveBook(book);
-        } catch (Exception e) {
-            System.out.println("Exception caught when saving book: " + e);
-        }
-    }
-
-    @Override
-    @Transactional
-    public String deleteBook(Integer id) {
-        Book book = getBook(id);
-        libraryDAO.deleteBook(book.getBookID());
-        return "Deleted book with ID: " + id;
     }
 
     @Override

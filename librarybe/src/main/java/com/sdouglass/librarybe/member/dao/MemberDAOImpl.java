@@ -1,8 +1,6 @@
 package com.sdouglass.librarybe.member.dao;
 
 import com.sdouglass.librarybe.LibraryMember.service.LibraryMemberService;
-import com.sdouglass.librarybe.checkouttransaction.entity.CheckOutTransaction;
-import com.sdouglass.librarybe.entity.Book;
 import com.sdouglass.librarybe.member.entity.Member;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -10,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
