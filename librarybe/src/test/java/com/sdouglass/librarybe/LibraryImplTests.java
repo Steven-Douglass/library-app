@@ -432,7 +432,7 @@ public class LibraryImplTests {
     @Test
     void getAllCheckOutTransactions() {
         // Given
-        Integer numberOfTransactions = 8;
+        Integer numberOfTransactions = 9;
 
         // When
         List<CheckOutTransaction> checkOutTransactionList = checkOutTransactionService.getAllCheckOutTransactions();
@@ -444,7 +444,7 @@ public class LibraryImplTests {
     @Test
     void getAllCheckOutTransactionsNotReturned() {
         // Given
-        Integer numberOfTransactionsNotReturned = 4;
+        Integer numberOfTransactionsNotReturned = 5;
 
         // When
         List<CheckOutTransaction> checkOutTransactionsNotReturnedList = checkOutTransactionService.getAllCheckOutTransactionsNotReturned();
@@ -463,7 +463,7 @@ public class LibraryImplTests {
 
         // When
         checkOutTransactionService.saveCheckOutTransaction(newCheckOutTransaction);
-        CheckOutTransaction savedCheckOutTransaction = checkOutTransactionService.getCheckOutTransaction(9);
+        CheckOutTransaction savedCheckOutTransaction = checkOutTransactionService.getCheckOutTransaction(10);
 
         // Then
         assertTrue(newCheckOutTransaction.equals(savedCheckOutTransaction));
