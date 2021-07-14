@@ -480,7 +480,7 @@ public class LibraryImplTests {
         List<CheckOutTransaction> checkOutTransactionList = checkOutTransactionService.getAllCheckOutTransactions();
 
         // Then
-        assertEquals(4, checkOutTransactionList.size());
+        assertEquals(5, checkOutTransactionList.size());
     }
 
     @Test

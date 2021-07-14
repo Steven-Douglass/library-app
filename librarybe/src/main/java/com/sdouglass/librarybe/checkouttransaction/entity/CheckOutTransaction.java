@@ -24,6 +24,12 @@ public class CheckOutTransaction {
     @Column
     private String dateCheckedOut;
 
+/*
+    @ToDo Cascade delete isn't working. Attempting to delete a CheckOutTransaction without first deleting
+    the corresponding CheckInTransaction results in a foreign key constraint failure. This has been overcome
+    by the CheckOutTransactionService calling the CheckInTransactionService to delete the CheckInTransaction
+    before deleting a CheckOutTransaction. Needs more investigation (Hibernate)
+ */
     @OneToOne(mappedBy = "checkOutTransaction", cascade = CascadeType.ALL)
     private CheckInTransaction checkInTransaction;
 

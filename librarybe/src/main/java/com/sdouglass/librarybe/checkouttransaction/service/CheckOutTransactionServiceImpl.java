@@ -1,5 +1,6 @@
 package com.sdouglass.librarybe.checkouttransaction.service;
 
+import com.sdouglass.librarybe.checkintransaction.service.CheckInTransactionService;
 import com.sdouglass.librarybe.checkouttransaction.dao.CheckOutTransactionDAO;
 import com.sdouglass.librarybe.checkouttransaction.entity.CheckOutTransaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,13 @@ import java.util.List;
 public class CheckOutTransactionServiceImpl implements CheckOutTransactionService {
 
     private final CheckOutTransactionDAO checkOutTransactionDAO;
+    private final CheckInTransactionService checkInTransactionService;
 
     @Autowired
-    public CheckOutTransactionServiceImpl(CheckOutTransactionDAO checkOutTransactionDAO) {
+    public CheckOutTransactionServiceImpl(CheckOutTransactionDAO checkOutTransactionDAO,
+                                          CheckInTransactionService checkInTransactionService) {
         this.checkOutTransactionDAO = checkOutTransactionDAO;
+        this.checkInTransactionService = checkInTransactionService;
     }
 
     @Override
@@ -45,6 +49,15 @@ public class CheckOutTransactionServiceImpl implements CheckOutTransactionServic
     @Override
     @Transactional
     public void deleteCheckOutTransaction(Integer id) {
+        // Check if there is a corresponding CheckInTransaction
+        CheckOutTransaction checkOutTransaction = checkOutTransactionDAO.getCheckOutTransaction(id);
+        if (checkOutTransaction.getCheckInTransaction() != null) {
+            checkInTransactionService.deleteCheckInTransaction(checkOutTransaction
+                    .getCheckInTransaction()
+                    .getCheckInTransactionID());
+        }
+
+        // Delete the CheckOutTransaction
         checkOutTransactionDAO.deleteCheckOutTransaction(id);
     }
 
