@@ -1,6 +1,6 @@
 package com.sdouglass.librarybe.address.entity;
 
-import com.sdouglass.librarybe.entity.Library;
+import com.sdouglass.librarybe.library.entity.Library;
 import com.sdouglass.librarybe.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;

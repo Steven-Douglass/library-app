@@ -1,55 +1,48 @@
-package com.sdouglass.librarybe.controller;
+package com.sdouglass.librarybe.library.controller;
 
-import com.sdouglass.librarybe.book.entity.Book;
 import com.sdouglass.librarybe.address.service.AddressService;
 import com.sdouglass.librarybe.author.service.AuthorService;
-import com.sdouglass.librarybe.entity.*;
-import com.sdouglass.librarybe.service.LibraryService;
+import com.sdouglass.librarybe.library.entity.Library;
+import com.sdouglass.librarybe.library.service.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
-public class LibraryAPIController {
+@RequestMapping("/api/library")
+public class LibraryController {
     private final LibraryService libraryService;
-    private final AddressService addressService;
-    private final AuthorService authorService;
 
     @Autowired
-    public LibraryAPIController(LibraryService libraryService, AddressService addressService,
-                                AuthorService authorService) {
+    public LibraryController(LibraryService libraryService) {
         this.libraryService = libraryService;
-        this.addressService = addressService;
-        this.authorService = authorService;
     }
 
-    @GetMapping("/library/{id}")
+    @GetMapping("/{id}")
     public Library getLibrary(@PathVariable Integer id) {
         return libraryService.getLibrary(id);
     }
 
-    @GetMapping("/library")
+    @GetMapping("")
     public List<Library> getLibraries() {
         return libraryService.getAllLibraries();
     }
 
-    @PostMapping("/library")
+    @PostMapping("")
     public Library addLibrary(@RequestBody Library library) {
         libraryService.saveLibrary(library);
         return library;
     }
 
-    @PutMapping("/library")
+    @PutMapping("")
     public Library updateLibrary(@RequestBody Library library) {
         libraryService.saveLibrary(library);
         return library;
     }
 
-    @DeleteMapping("/library/{id}")
+    @DeleteMapping("/{id}")
     public String deleteLibrary(@PathVariable Integer id) {
         return libraryService.deleteLibrary(id);
     }
-
 }

@@ -1,6 +1,6 @@
-package com.sdouglass.librarybe.LibraryMember.dao;
+package com.sdouglass.librarybe.librarymember.dao;
 
-import com.sdouglass.librarybe.LibraryMember.entity.LibraryMember;
+import com.sdouglass.librarybe.librarymember.entity.LibraryMember;
 
 import java.util.List;
 

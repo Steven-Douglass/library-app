@@ -1,7 +1,7 @@
 package com.sdouglass.librarybe.address.dao;
 
 import com.sdouglass.librarybe.address.entity.Address;
-import com.sdouglass.librarybe.entity.Library;
+import com.sdouglass.librarybe.library.entity.Library;
 import com.sdouglass.librarybe.member.entity.Member;
 import org.hibernate.Session;
 import org.hibernate.query.Query;

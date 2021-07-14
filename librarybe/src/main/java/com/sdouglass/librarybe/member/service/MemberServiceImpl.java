@@ -1,13 +1,11 @@
 package com.sdouglass.librarybe.member.service;
 
-import com.sdouglass.librarybe.LibraryMember.service.LibraryMemberService;
+import com.sdouglass.librarybe.librarymember.service.LibraryMemberService;
 import com.sdouglass.librarybe.address.entity.Address;
 import com.sdouglass.librarybe.address.service.AddressService;
 import com.sdouglass.librarybe.checkouttransaction.service.CheckOutTransactionService;
 import com.sdouglass.librarybe.member.dao.MemberDAO;
-import com.sdouglass.librarybe.member.dao.MemberDAOImpl;
 import com.sdouglass.librarybe.member.entity.Member;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

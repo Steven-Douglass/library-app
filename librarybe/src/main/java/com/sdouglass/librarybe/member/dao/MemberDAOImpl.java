@@ -1,6 +1,6 @@
 package com.sdouglass.librarybe.member.dao;
 
-import com.sdouglass.librarybe.LibraryMember.service.LibraryMemberService;
+import com.sdouglass.librarybe.librarymember.service.LibraryMemberService;
 import com.sdouglass.librarybe.member.entity.Member;
 import org.hibernate.Session;
 import org.hibernate.query.Query;

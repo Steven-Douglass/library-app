@@ -2,7 +2,6 @@ package com.sdouglass.librarybe.address.controller;
 
 import com.sdouglass.librarybe.address.entity.Address;
 import com.sdouglass.librarybe.address.service.AddressService;
-import com.sdouglass.librarybe.service.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,12 +10,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/address")
 public class AddressController {
-    private final LibraryService libraryService;
     private final AddressService addressService;
 
     @Autowired
-    public AddressController(LibraryService libraryService, AddressService addressService) {
-        this.libraryService = libraryService;
+    public AddressController(AddressService addressService) {
         this.addressService = addressService;
     }
 

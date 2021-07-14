@@ -1,8 +1,7 @@
-package com.sdouglass.librarybe.service;
+package com.sdouglass.librarybe.library.service;
 
-import com.sdouglass.librarybe.book.entity.Book;
-import com.sdouglass.librarybe.dao.LibraryDAO;
-import com.sdouglass.librarybe.entity.*;
+import com.sdouglass.librarybe.library.dao.LibraryDAO;
+import com.sdouglass.librarybe.library.entity.Library;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

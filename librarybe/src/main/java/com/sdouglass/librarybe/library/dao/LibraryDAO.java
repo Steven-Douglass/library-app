@@ -1,7 +1,6 @@
-package com.sdouglass.librarybe.dao;
+package com.sdouglass.librarybe.library.dao;
 
-import com.sdouglass.librarybe.book.entity.Book;
-import com.sdouglass.librarybe.entity.*;
+import com.sdouglass.librarybe.library.entity.Library;
 
 import java.util.List;
 

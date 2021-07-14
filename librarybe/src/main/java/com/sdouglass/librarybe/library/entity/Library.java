@@ -1,4 +1,4 @@
-package com.sdouglass.librarybe.entity;
+package com.sdouglass.librarybe.library.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sdouglass.librarybe.address.entity.Address;

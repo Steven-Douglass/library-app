@@ -1,6 +1,6 @@
-package com.sdouglass.librarybe.LibraryMember.service;
+package com.sdouglass.librarybe.librarymember.service;
 
-import com.sdouglass.librarybe.LibraryMember.entity.LibraryMember;
+import com.sdouglass.librarybe.librarymember.entity.LibraryMember;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

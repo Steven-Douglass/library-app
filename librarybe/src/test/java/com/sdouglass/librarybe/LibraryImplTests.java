@@ -1,8 +1,9 @@
 package com.sdouglass.librarybe;
 
 import com.sdouglass.librarybe.book.entity.Book;
-import com.sdouglass.librarybe.LibraryMember.entity.LibraryMember;
-import com.sdouglass.librarybe.LibraryMember.service.LibraryMemberService;
+import com.sdouglass.librarybe.library.service.LibraryService;
+import com.sdouglass.librarybe.librarymember.entity.LibraryMember;
+import com.sdouglass.librarybe.librarymember.service.LibraryMemberService;
 import com.sdouglass.librarybe.address.entity.Address;
 import com.sdouglass.librarybe.address.service.AddressService;
 import com.sdouglass.librarybe.author.entity.Author;
@@ -10,10 +11,9 @@ import com.sdouglass.librarybe.author.service.AuthorService;
 import com.sdouglass.librarybe.book.service.BookService;
 import com.sdouglass.librarybe.checkouttransaction.entity.CheckOutTransaction;
 import com.sdouglass.librarybe.checkouttransaction.service.CheckOutTransactionService;
-import com.sdouglass.librarybe.entity.*;
+import com.sdouglass.librarybe.library.entity.Library;
 import com.sdouglass.librarybe.member.entity.Member;
 import com.sdouglass.librarybe.member.service.MemberService;
-import com.sdouglass.librarybe.service.LibraryService;
 import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
