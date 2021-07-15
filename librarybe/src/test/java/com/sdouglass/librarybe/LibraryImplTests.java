@@ -3,6 +3,8 @@ package com.sdouglass.librarybe;
 import com.sdouglass.librarybe.book.entity.Book;
 import com.sdouglass.librarybe.bookauthor.entity.BookAuthor;
 import com.sdouglass.librarybe.bookauthor.service.BookAuthorService;
+import com.sdouglass.librarybe.bookinstance.entity.BookInstance;
+import com.sdouglass.librarybe.bookinstance.service.BookInstanceService;
 import com.sdouglass.librarybe.library.service.LibraryService;
 import com.sdouglass.librarybe.librarymember.entity.LibraryMember;
 import com.sdouglass.librarybe.librarymember.service.LibraryMemberService;
@@ -45,6 +47,8 @@ public class LibraryImplTests {
     private BookService bookService;
     @Autowired
     private BookAuthorService bookAuthorService;
+    @Autowired
+    private BookInstanceService bookInstanceService;
     @Autowired
     private CheckOutTransactionService checkOutTransactionService;
     @Autowired
@@ -420,11 +424,11 @@ public class LibraryImplTests {
         String actualLibraryMemberException1 = "";
         String expectedLibraryMemberException2 = "LibraryMember ID not found - 2";
         String actualLibraryMemberException2 = "";
-        String expectedCheckOutTransactionException1 = "CheckOutTransaction ID not found - 1";
+        String expectedCheckOutTransactionException1 = "CheckOutTransaction ID not found: 1";
         String actualCheckOutTransactionException1 = "";
-        String expectedCheckOutTransactionException2 = "CheckOutTransaction ID not found - 3";
+        String expectedCheckOutTransactionException2 = "CheckOutTransaction ID not found: 3";
         String actualCheckOutTransactionException2 = "";
-        String expectedCheckOutTransactionException3 = "CheckOutTransaction ID not found - 4";
+        String expectedCheckOutTransactionException3 = "CheckOutTransaction ID not found: 4";
         String actualCheckOutTransactionException3 = "";
 
         // When
@@ -690,6 +694,108 @@ public class LibraryImplTests {
         // Then
         assertEquals(expectedException, actualException);
         assertEquals(expectedDeleteMessage, actualDeleteMessage);
+    }
+
+
+    @Test
+    void getBookInstance() {
+        // Given
+        BookInstance expectedBookInstance = new BookInstance();
+        expectedBookInstance.setBookInstanceID(30);
+        expectedBookInstance.setBookID(10);
+        expectedBookInstance.setLibraryID(2);
+
+        String expectedException = "BookInstance ID not found: 31";
+        String actualException = "";
+
+        // When
+        BookInstance actualBookInstance = bookInstanceService.getBookInstance(30);
+
+        try {
+            bookInstanceService.getBookInstance(31);
+        } catch (Exception e) {
+            actualException = e.getMessage();
+        }
+
+        // Then
+        assertEquals(expectedBookInstance, actualBookInstance);
+        assertEquals(expectedException, actualException);
+    }
+
+    @Test
+    void getAllBookInstances() {
+        // Given
+        Integer numBookInstances = 30;
+
+        // When
+        List<BookInstance> bookInstances = bookInstanceService.getAllBookInstances();
+
+        // Then
+        assertEquals(numBookInstances, bookInstances.size());
+    }
+
+    @Test
+    void saveBookInstance() {
+        // Given
+        BookInstance newBookInstance = new BookInstance();
+        newBookInstance.setBookID(1);
+        newBookInstance.setLibraryID(1);
+
+        // When
+        bookInstanceService.saveBookInstance(newBookInstance);
+        BookInstance savedBookInstance = bookInstanceService.getBookInstance(31);
+
+        // Then
+        assertEquals(newBookInstance, savedBookInstance);
+    }
+
+    @Test
+    void deleteBookInstance() {
+        // Given
+        String expectedException = "BookInstance ID not found: 22";
+        String actualException = "";
+        String expectedDeleteMessage = "Deleted BookInstance with ID: 22";
+        String actualDeleteMessage = "";
+        String expectedCheckOutTransactionMessage1 = "CheckOutTransaction ID not found: 1";
+        String actualCheckOutTransactionMessage1 = "";
+        String expectedCheckOutTransactionMessage2 = "CheckOutTransaction ID not found: 9";
+        String actualCheckOutTransactionMessage2 = "";
+        String expectedDeleteWhenBookDoesNotExistMessage = "BookInstance ID not found: 22";
+        String actualDeleteWhenBookDoesNotExistMessage = "";
+
+        // When
+        actualDeleteMessage = bookInstanceService.deleteBookInstance(22);
+
+        try {
+            bookInstanceService.getBookInstance(22);
+        } catch (Exception e) {
+            actualException = e.getMessage();
+        }
+
+        try {
+            checkOutTransactionService.getCheckOutTransaction(1);
+        } catch (Exception e) {
+            actualCheckOutTransactionMessage1 = e.getMessage();
+        }
+
+        try {
+            checkOutTransactionService.getCheckOutTransaction(9);
+        } catch (Exception e) {
+            actualCheckOutTransactionMessage2 = e.getMessage();
+        }
+
+        try {
+            bookInstanceService.deleteBookInstance(22);
+        } catch (Exception e) {
+            actualDeleteWhenBookDoesNotExistMessage = e.getMessage();
+        }
+
+        // Then
+        assertEquals(expectedException, actualException);
+        assertEquals(expectedDeleteMessage, actualDeleteMessage);
+        assertEquals(expectedCheckOutTransactionMessage1, actualCheckOutTransactionMessage1);
+        assertEquals(expectedCheckOutTransactionMessage2, actualCheckOutTransactionMessage2);
+        assertEquals(expectedDeleteWhenBookDoesNotExistMessage, actualDeleteWhenBookDoesNotExistMessage);
     }
 
 }

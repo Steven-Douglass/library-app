@@ -27,7 +27,7 @@ public class CheckOutTransactionServiceImpl implements CheckOutTransactionServic
     public CheckOutTransaction getCheckOutTransaction(Integer id) {
         CheckOutTransaction checkOutTransaction = checkOutTransactionDAO.getCheckOutTransaction(id);
         if (checkOutTransaction == null) {
-            throw new RuntimeException("CheckOutTransaction ID not found - " + id);
+            throw new RuntimeException("CheckOutTransaction ID not found: " + id);
         }
         return checkOutTransaction;
     }

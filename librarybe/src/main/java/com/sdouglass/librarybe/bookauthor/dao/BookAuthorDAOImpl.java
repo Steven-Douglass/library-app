@@ -1,6 +1,5 @@
 package com.sdouglass.librarybe.bookauthor.dao;
 
-import com.sdouglass.librarybe.author.entity.Author;
 import com.sdouglass.librarybe.bookauthor.entity.BookAuthor;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
