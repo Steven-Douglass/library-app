@@ -23,7 +23,7 @@ public class LibraryMemberServiceImpl implements LibraryMemberService {
     public LibraryMember getLibraryMember(Integer id) {
         LibraryMember libraryMember = libraryMemberDAO.getLibraryMember(id);
         if (libraryMember == null) {
-            throw new RuntimeException("LibraryMember ID not found - " + id);
+            throw new RuntimeException("LibraryMember ID not found: " + id);
         }
         return libraryMember;
     }
@@ -45,6 +45,12 @@ public class LibraryMemberServiceImpl implements LibraryMemberService {
     public String deleteLibraryMember(Integer id) {
         libraryMemberDAO.deleteLibraryMember(id);
         return "Deleted LibraryMember with ID: " + id;
+    }
+
+    @Override
+    @Transactional
+    public void deleteLibraryMemberForLibraryId(Integer libraryId) {
+        libraryMemberDAO.deleteLibraryMemberForLibraryId(libraryId);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class AuthorServiceImpl implements AuthorService {
     public Author getAuthor(Integer id) {
         Author author = authorDAO.getAuthor(id);
         if (author == null) {
-            throw new RuntimeException("Author ID not found - " + id);
+            throw new RuntimeException("Author ID not found: " + id);
         }
         return author;
     }

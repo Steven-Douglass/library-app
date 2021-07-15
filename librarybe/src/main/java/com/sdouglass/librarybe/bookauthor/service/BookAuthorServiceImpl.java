@@ -24,7 +24,7 @@ public class BookAuthorServiceImpl implements BookAuthorService {
     @Transactional
     public BookAuthor getBookAuthor(Integer id) {
         Optional<BookAuthor> bookAuthor = Optional.ofNullable(bookAuthorDAO.getBookAuthor(id));
-        return bookAuthor.orElseThrow(() -> new RuntimeException("BookAuthor ID not found - " + id));
+        return bookAuthor.orElseThrow(() -> new RuntimeException("BookAuthor ID not found: " + id));
     }
 
     @Override

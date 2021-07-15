@@ -46,4 +46,14 @@ public class BookInstanceDAOImpl implements BookInstanceDAO {
                 .setParameter("id", id)
                 .executeUpdate();
     }
+
+    @Override
+    public List<BookInstance> getAllBookInstancesForLibrary(Integer libraryId) {
+        Session currentSession = entityManager.unwrap(Session.class);
+        Query<BookInstance> bookInstanceQuery = currentSession.createQuery("FROM BookInstance bi " +
+                "WHERE bi.libraryID = :libraryId", BookInstance.class)
+                .setParameter("libraryId", libraryId);
+        List<BookInstance> bookInstancesForLibrary = bookInstanceQuery.getResultList();
+        return bookInstancesForLibrary;
+    }
 }

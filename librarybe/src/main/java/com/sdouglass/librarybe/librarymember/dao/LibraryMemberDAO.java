@@ -9,5 +9,6 @@ public interface LibraryMemberDAO {
     public List<LibraryMember> getAllLibraryMembers();
     public void saveLibraryMember(LibraryMember libraryMember);
     public void deleteLibraryMember(Integer id);
+    public void deleteLibraryMemberForLibraryId(Integer libraryId);
     public void deleteLibraryMemberForMemberId(Integer memberId);
 }

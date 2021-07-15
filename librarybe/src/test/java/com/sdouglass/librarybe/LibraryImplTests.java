@@ -5,6 +5,8 @@ import com.sdouglass.librarybe.bookauthor.entity.BookAuthor;
 import com.sdouglass.librarybe.bookauthor.service.BookAuthorService;
 import com.sdouglass.librarybe.bookinstance.entity.BookInstance;
 import com.sdouglass.librarybe.bookinstance.service.BookInstanceService;
+import com.sdouglass.librarybe.checkintransaction.entity.CheckInTransaction;
+import com.sdouglass.librarybe.checkintransaction.service.CheckInTransactionService;
 import com.sdouglass.librarybe.library.service.LibraryService;
 import com.sdouglass.librarybe.librarymember.entity.LibraryMember;
 import com.sdouglass.librarybe.librarymember.service.LibraryMemberService;
@@ -136,7 +138,7 @@ public class LibraryImplTests {
     @Order(5)
     void deleteAddress() {
         // Given
-        String expectedException = "Address ID not found - 9";
+        String expectedException = "Address ID not found: 9";
         String actualException = "";
 
         Address newAddress = new Address();
@@ -190,7 +192,7 @@ public class LibraryImplTests {
     @Order(8)
     void deleteAuthor() {
         // Given
-        String expectedException = "Author ID not found - 5";
+        String expectedException = "Author ID not found: 5";
         String actualException = "";
 
         Author newAuthor = new Author();
@@ -333,32 +335,72 @@ public class LibraryImplTests {
     @Order(16)
     void deleteLibrary() {
         // Given
-        String expectedException = "Library ID not found - 3";
-        String actualException = "";
-
-        Address newAddress = new Address();
-        newAddress.setAddressLine1("414 Burberry Plaza");
-        newAddress.setAddressLine2("Unit 37");
-        newAddress.setCity("Philadelphia");
-        newAddress.setState("PA");
-        newAddress.setPostalCode("19103");
-
-        Library newLibrary = new Library();
-        newLibrary.setName("The Free Library Of Philadelphia");
-        newLibrary.setAddress(newAddress);
-        libraryService.saveLibrary(newLibrary);
+        String expectedBookInstanceException = "BookInstance ID not found: 22";
+        String actualBookInstanceException = "";
+        String expectedCheckOutTransactionException = "CheckOutTransaction ID not found: 1";
+        String actualCheckOutTransactionException = "";
+        String expectedLibraryMemberException = "LibraryMember ID not found: 6";
+        String actualLibraryMemberException = "";
+        String expectedLibraryException = "Library ID not found: 1";
+        String actualLibraryException = "";
+        String expectedAddressException = "Address ID not found: 5";
+        String actualAddressException = "";
 
         // When
-        Library savedLibrary = libraryService.getLibrary(3);
-        libraryService.deleteLibrary(3);
+        libraryService.deleteLibrary(1);
+
         try {
-            Library library = libraryService.getLibrary(3);
+            bookInstanceService.getBookInstance(22);
+        } catch (Exception e) {
+            actualBookInstanceException = e.getMessage();
+        }
+
+        try {
+            checkOutTransactionService.getCheckOutTransaction(1);
+        } catch (Exception e) {
+            actualCheckOutTransactionException = e.getMessage();
+        }
+
+        try {
+            libraryMemberService.getLibraryMember(6);
+        } catch (Exception e) {
+            actualLibraryMemberException = e.getMessage();
+        }
+
+        try {
+            libraryService.getLibrary(1);
+        } catch (RuntimeException e) {
+            actualLibraryException = e.getMessage();
+        }
+
+        try {
+            addressService.getAddress(5);
+        } catch (Exception e) {
+            actualAddressException = e.getMessage();
+        }
+
+        // Then
+        assertEquals(expectedLibraryException, actualLibraryException);
+        assertEquals(expectedCheckOutTransactionException, actualCheckOutTransactionException);
+        assertEquals(expectedBookInstanceException, actualBookInstanceException);
+        assertEquals(expectedLibraryMemberException, actualLibraryMemberException);
+        assertEquals(expectedAddressException, actualAddressException);
+    }
+
+    @Test
+    void deleteLibraryThatDoesNotExist() {
+        // Given
+        String expectedException = "Library ID not found: 7";
+        String actualException = "";
+
+        // When
+        try {
+            libraryService.deleteLibrary(7);
         } catch (RuntimeException e) {
             actualException = e.getMessage();
         }
 
         // Then
-        assertEquals(newLibrary, savedLibrary);
         assertEquals(expectedException, actualException);
     }
 
@@ -416,13 +458,13 @@ public class LibraryImplTests {
     @Order(20)
     void deleteMember() {
         // Given
-        String expectedMemberException = "Member ID not found - 1";
+        String expectedMemberException = "Member ID not found: 1";
         String actualMemberException = "";
-        String expectedAddressException = "Address ID not found - 1";
+        String expectedAddressException = "Address ID not found: 1";
         String actualAddressException = "";
-        String expectedLibraryMemberException1 = "LibraryMember ID not found - 1";
+        String expectedLibraryMemberException1 = "LibraryMember ID not found: 1";
         String actualLibraryMemberException1 = "";
-        String expectedLibraryMemberException2 = "LibraryMember ID not found - 2";
+        String expectedLibraryMemberException2 = "LibraryMember ID not found: 2";
         String actualLibraryMemberException2 = "";
         String expectedCheckOutTransactionException1 = "CheckOutTransaction ID not found: 1";
         String actualCheckOutTransactionException1 = "";
@@ -603,7 +645,7 @@ public class LibraryImplTests {
         expectedBookAuthor.setBookAuthorID(1);
         expectedBookAuthor.setBookID(1);
         expectedBookAuthor.setAuthorID(4);
-        String expectedException = "BookAuthor ID not found - 19";
+        String expectedException = "BookAuthor ID not found: 19";
         String actualException = "";
 
         // When
@@ -671,7 +713,7 @@ public class LibraryImplTests {
     @Test
     void deleteBookAuthor() {
         // Given
-        String expectedException = "BookAuthor ID not found - 11";
+        String expectedException = "BookAuthor ID not found: 11";
         String actualException = "";
         String expectedDeleteMessage = "Deleted BookAuthor with ID: 11";
         String actualDeleteMessage = "";
@@ -796,6 +838,18 @@ public class LibraryImplTests {
         assertEquals(expectedCheckOutTransactionMessage1, actualCheckOutTransactionMessage1);
         assertEquals(expectedCheckOutTransactionMessage2, actualCheckOutTransactionMessage2);
         assertEquals(expectedDeleteWhenBookDoesNotExistMessage, actualDeleteWhenBookDoesNotExistMessage);
+    }
+
+    @Test
+    void getAllBookInstancesForLibrary() {
+        // Given
+        Integer expectedNumberOfBookInstances = 13;
+
+        // When
+        List<BookInstance> bookInstances = bookInstanceService.getAllBookInstancesForLibrary(1);
+
+        // Then
+        assertEquals(expectedNumberOfBookInstances, bookInstances.size());
     }
 
 }

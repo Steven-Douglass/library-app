@@ -11,4 +11,5 @@ public interface BookInstanceService {
     public List<BookInstance> getAllBookInstances();
     public void saveBookInstance(BookInstance bookInstance);
     public String deleteBookInstance(Integer id);
+    public List<BookInstance> getAllBookInstancesForLibrary(Integer libraryId);
 }

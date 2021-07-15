@@ -48,6 +48,14 @@ public class LibraryMemberDAOImpl implements LibraryMemberDAO {
     }
 
     @Override
+    public void deleteLibraryMemberForLibraryId(Integer libraryId) {
+        entityManager.unwrap(Session.class).createQuery("DELETE FROM LibraryMember lm " +
+                "WHERE lm.libraryID = :libraryId")
+                .setParameter("libraryId", libraryId)
+                .executeUpdate();
+    }
+
+    @Override
     public void deleteLibraryMemberForMemberId(Integer memberId) {
         Session currentSession = entityManager.unwrap(Session.class);
         Query addressQuery = currentSession.createQuery("DELETE FROM LibraryMember lm WHERE lm.memberID = :memberId");

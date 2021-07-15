@@ -22,7 +22,7 @@ public class AddressServiceImpl implements AddressService {
     public Address getAddress(Integer id) {
         Address address = addressDAO.getAddress(id);
         if (address == null) {
-            throw new RuntimeException("Address ID not found - " + id);
+            throw new RuntimeException("Address ID not found: " + id);
         }
         return address;
     }

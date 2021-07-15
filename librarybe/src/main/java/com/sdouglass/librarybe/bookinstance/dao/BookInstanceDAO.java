@@ -9,4 +9,5 @@ public interface BookInstanceDAO {
     public List<BookInstance> getAllBookInstances();
     public void saveBookInstance(BookInstance bookInstance);
     public void deleteBookInstance(Integer id);
+    public List<BookInstance> getAllBookInstancesForLibrary(Integer libraryId);
 }

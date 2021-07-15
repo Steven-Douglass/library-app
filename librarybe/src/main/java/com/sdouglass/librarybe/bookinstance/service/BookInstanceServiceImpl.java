@@ -64,4 +64,10 @@ public class BookInstanceServiceImpl implements BookInstanceService {
         bookInstanceDAO.deleteBookInstance(bookInstance.getBookInstanceID());
         return "Deleted BookInstance with ID: " + id;
     }
+
+    @Override
+    @Transactional
+    public List<BookInstance> getAllBookInstancesForLibrary(Integer libraryId) {
+        return bookInstanceDAO.getAllBookInstancesForLibrary(libraryId);
+    }
 }

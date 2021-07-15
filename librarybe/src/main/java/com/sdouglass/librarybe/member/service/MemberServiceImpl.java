@@ -36,7 +36,7 @@ public class MemberServiceImpl implements MemberService {
     public Member getMember(Integer id) {
         Member member = memberDAO.getMember(id);
         if (member == null) {
-            throw new RuntimeException("Member ID not found - " + id);
+            throw new RuntimeException("Member ID not found: " + id);
         }
         return member;
     }
