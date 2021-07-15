@@ -42,6 +42,18 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     @Transactional
     public String deleteLibrary(Integer id) {
+        // ToDO deleting a library will require deleting tables in the following order
+        /*
+        DROP TABLE IF EXISTS library.checkintransaction;
+        We will need to get all the checkInTransactions for a specific library
+        Start with library id -> get all bookinstanceids -> get all CheckOutTransaction ids
+        DROP TABLE IF EXISTS library.checkouttransaction;
+        DROP TABLE IF EXISTS library.bookinstance;
+        DROP TABLE IF EXISTS library.librarymember;
+        DROP TABLE IF EXISTS library.library;
+        DROP TABLE IF EXISTS library.address;
+         */
+
         Library library = getLibrary(id);
         libraryDAO.deleteLibrary(library.getLibraryID());
         return "Deleted Library with ID: " + id;
