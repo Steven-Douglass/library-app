@@ -44,16 +44,16 @@ INSERT INTO library.author(AuthorID, FirstName, LastName) VALUES (2, 'Mark', 'Tw
 INSERT INTO library.author(AuthorID, FirstName, LastName) VALUES (3, 'J. K.', 'Rowling');
 INSERT INTO library.author(AuthorID, FirstName, LastName) VALUES (4, 'Charles', 'Dickens');
 
-INSERT INTO library.bookauthor(BookID, AuthorID) VALUES (1, 4);
-INSERT INTO library.bookauthor(BookID, AuthorID) VALUES (2, 4);
-INSERT INTO library.bookauthor(BookID, AuthorID) VALUES (3, 4);
-INSERT INTO library.bookauthor(BookID, AuthorID) VALUES (4, 2);
-INSERT INTO library.bookauthor(BookID, AuthorID) VALUES (5, 2);
-INSERT INTO library.bookauthor(BookID, AuthorID) VALUES (6, 3);
-INSERT INTO library.bookauthor(BookID, AuthorID) VALUES (7, 3);
-INSERT INTO library.bookauthor(BookID, AuthorID) VALUES (8, 3);
-INSERT INTO library.bookauthor(BookID, AuthorID) VALUES (9, 1);
-INSERT INTO library.bookauthor(BookID, AuthorID) VALUES (10, 1);
+INSERT INTO library.bookauthor(BookAuthorID, BookID, AuthorID) VALUES (1, 1, 4);
+INSERT INTO library.bookauthor(BookAuthorID, BookID, AuthorID) VALUES (2, 2, 4);
+INSERT INTO library.bookauthor(BookAuthorID, BookID, AuthorID) VALUES (3, 3, 4);
+INSERT INTO library.bookauthor(BookAuthorID, BookID, AuthorID) VALUES (4, 4, 2);
+INSERT INTO library.bookauthor(BookAuthorID, BookID, AuthorID) VALUES (5, 5, 2);
+INSERT INTO library.bookauthor(BookAuthorID, BookID, AuthorID) VALUES (6, 6, 3);
+INSERT INTO library.bookauthor(BookAuthorID, BookID, AuthorID) VALUES (7, 7, 3);
+INSERT INTO library.bookauthor(BookAuthorID, BookID, AuthorID) VALUES (8, 8, 3);
+INSERT INTO library.bookauthor(BookAuthorID, BookID, AuthorID) VALUES (9, 9, 1);
+INSERT INTO library.bookauthor(BookAuthorID, BookID, AuthorID) VALUES (10, 10, 1);
 
 INSERT INTO library.bookinstance(BookInstanceID, BookID, LibraryID) VALUES (1, 1, 1);
 INSERT INTO library.bookinstance(BookInstanceID, BookID, LibraryID) VALUES (2, 1, 1);

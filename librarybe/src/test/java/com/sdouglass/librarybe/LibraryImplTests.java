@@ -1,6 +1,8 @@
 package com.sdouglass.librarybe;
 
 import com.sdouglass.librarybe.book.entity.Book;
+import com.sdouglass.librarybe.bookauthor.entity.BookAuthor;
+import com.sdouglass.librarybe.bookauthor.service.BookAuthorService;
 import com.sdouglass.librarybe.library.service.LibraryService;
 import com.sdouglass.librarybe.librarymember.entity.LibraryMember;
 import com.sdouglass.librarybe.librarymember.service.LibraryMemberService;
@@ -36,19 +38,21 @@ import static org.junit.jupiter.api.Assertions.*;
     config = @SqlConfig(transactionMode = SqlConfig.TransactionMode.ISOLATED))
 public class LibraryImplTests {
     @Autowired
-    private LibraryService libraryService;
-    @Autowired
     private AddressService addressService;
     @Autowired
     private AuthorService authorService;
     @Autowired
     private BookService bookService;
     @Autowired
-    private MemberService memberService;
+    private BookAuthorService bookAuthorService;
+    @Autowired
+    private CheckOutTransactionService checkOutTransactionService;
+    @Autowired
+    private LibraryService libraryService;
     @Autowired
     private LibraryMemberService libraryMemberService;
     @Autowired
-    private CheckOutTransactionService checkOutTransactionService;
+    private MemberService memberService;
 
     @BeforeEach
     void setUp() {
@@ -586,6 +590,106 @@ public class LibraryImplTests {
         // Then
         assertEquals(totalTransactions, checkOutTransactions.size());
         assertEquals(booksCurrentlyCheckedOut, checkedOutTransactionsNotReturned.size());
+    }
+
+    @Test
+    void getBookAuthor() {
+        // Given
+        BookAuthor expectedBookAuthor = new BookAuthor();
+        expectedBookAuthor.setBookAuthorID(1);
+        expectedBookAuthor.setBookID(1);
+        expectedBookAuthor.setAuthorID(4);
+        String expectedException = "BookAuthor ID not found - 19";
+        String actualException = "";
+
+        // When
+        BookAuthor actualBookAuthor = bookAuthorService.getBookAuthor(1);
+        try {
+            bookAuthorService.getBookAuthor(19);
+        } catch (Exception e) {
+            actualException = e.getMessage();
+        }
+
+        // Then
+        assertEquals(expectedBookAuthor, actualBookAuthor);
+        assertEquals(expectedException, actualException);
+    }
+
+    @Test
+    void getAllBookAuthors() {
+        // Given
+        Integer numBookAuthors = 10;
+
+        // When
+        List<BookAuthor> bookAuthorList = bookAuthorService.getAllBookAuthors();
+
+        // Then
+        assertEquals(numBookAuthors, bookAuthorList.size());
+    }
+
+    @Test
+    void saveBookAuthor() {
+        // Given
+        Book newTextBook = new Book();
+        newTextBook.setTitle("Science textbook");
+        newTextBook.setPublishDate("2014-11-23");
+        bookService.saveBook(newTextBook);
+
+        Author newAuthor1 = new Author();
+        newAuthor1.setFirstName("Philip");
+        newAuthor1.setLastName("Wu");
+        authorService.saveAuthor(newAuthor1);
+
+        Author newAuthor2 = new Author();
+        newAuthor2.setFirstName("Monica");
+        newAuthor2.setLastName("Garcia");
+        authorService.saveAuthor(newAuthor2);
+
+        BookAuthor newBookAuthor1 = new BookAuthor();
+        newBookAuthor1.setBookID(11);
+        newBookAuthor1.setAuthorID(5);
+        bookAuthorService.saveBookAuthor(newBookAuthor1);
+
+        BookAuthor newBookAuthor2 = new BookAuthor();
+        newBookAuthor2.setBookID(11);
+        newBookAuthor2.setAuthorID(6);
+        bookAuthorService.saveBookAuthor(newBookAuthor2);
+
+        // When
+        BookAuthor savedBookAuthor1 = bookAuthorService.getBookAuthor(11);
+        BookAuthor savedBookAuthor2 = bookAuthorService.getBookAuthor(12);
+
+        // Then
+        assertEquals(newBookAuthor1, savedBookAuthor1);
+        assertEquals(newBookAuthor2, savedBookAuthor2);
+    }
+
+    @Test
+    void deleteBookAuthor() {
+        // Given
+        String expectedException = "BookAuthor ID not found - 11";
+        String actualException = "";
+        String expectedDeleteMessage = "Deleted BookAuthor with ID: 11";
+        String actualDeleteMessage = "";
+        
+        BookAuthor newBookAuthor = new BookAuthor();
+        newBookAuthor.setBookID(10);
+        newBookAuthor.setAuthorID(4);
+
+        // When
+        bookAuthorService.saveBookAuthor(newBookAuthor);
+        BookAuthor savedBookAuthor = bookAuthorService.getBookAuthor(11);
+        actualDeleteMessage = bookAuthorService.deleteBookAuthor(11);
+
+        try {
+            BookAuthor bookAuthor = bookAuthorService.getBookAuthor(11);
+        } catch (RuntimeException e) {
+            actualException = e.getMessage();
+        }
+
+        // Then
+        assertEquals(expectedException, actualException);
+        assertEquals(expectedDeleteMessage, actualDeleteMessage);
     }
 
 }

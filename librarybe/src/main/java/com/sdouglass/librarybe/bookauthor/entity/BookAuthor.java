@@ -1,5 +1,6 @@
 package com.sdouglass.librarybe.bookauthor.entity;
 
+import com.sdouglass.librarybe.author.entity.Author;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,4 +20,20 @@ public class BookAuthor {
 
     @Column
     private Integer authorID;
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (!(object instanceof BookAuthor)) {
+            return false;
+        }
+
+        BookAuthor bookAuthor = (BookAuthor) object;
+        return this.getBookAuthorID() == bookAuthor.getBookAuthorID() &&
+               this.getBookID() == bookAuthor.getBookID() &&
+               this.getAuthorID() == bookAuthor.getAuthorID();
+    }
 }
